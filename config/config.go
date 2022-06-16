@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -13,6 +12,7 @@ type config struct {
 		Dialect  string
 		Host     string
 		Port     string
+		User     string
 		Name     string
 		Password string
 	}
@@ -38,6 +38,4 @@ func ReadConfig() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	spew.Dump(C)
 }
