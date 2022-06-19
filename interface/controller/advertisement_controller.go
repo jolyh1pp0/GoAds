@@ -13,6 +13,7 @@ type advertisementController struct {
 
 type AdvertisementController interface {
 	GetAdvertisements(c Context) error
+	GetOneAdvertisement(c Context) error
 	CreateAdvertisement(c Context) error
 }
 
@@ -28,7 +29,19 @@ func (ac *advertisementController) GetAdvertisements(c Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, a)
+	return c.JSONPretty(http.StatusOK, a, "  ")
+}
+
+func (ac *advertisementController) GetOneAdvertisement(c Context) error {
+	var a []*model.Advertisement
+	id := c.Param("id")
+
+	a, err := ac.advertisementInterfactor.GetOne(a, id)
+	if err != nil {
+		return err
+	}
+
+	return c.JSONPretty(http.StatusOK, a, "  ")
 }
 
 func (ac *advertisementController) CreateAdvertisement(c Context) error {

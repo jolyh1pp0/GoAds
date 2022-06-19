@@ -16,8 +16,18 @@ func NewAdvertisementRepository(db *gorm.DB) repository.AdvertisementRepository 
 }
 
 func (ar *advertisementRepository) FindAll(a []*model.Advertisement) ([]*model.Advertisement, error) {
-	err := ar.db.Find(&a).Error
+	err := ar.db.Limit(10).Select("title, photo_1, price").Find(&a).Error
+	if err != nil {
+		return nil, err
+	}
 
+	return a, nil
+}
+
+func (ar *advertisementRepository) FindOne(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
+	//err := ar.db.Where("id = ?", id).Select("title, photo_1, price").Find(&a).Error
+
+	err := ar.db.Limit(10).Select("title, photo_1, price").Where("id = ?", id).Find(&a).Error
 	if err != nil {
 		return nil, err
 	}
