@@ -12,8 +12,9 @@ func NewAdvertisementPresenter() presenter.AdvertisementPresenter {
 }
 
 func (ap *advertisementPresenter) ResponseAdvertisements(us []*model.Advertisement) []*model.Advertisement {
-	for _, u := range us {
-		u.Title = "Mr." + u.Title
-	}
+	//for _, u := range us {
+	//	u.Title = "Mr." + u.Title
+	//}
+
 	return us
 }
