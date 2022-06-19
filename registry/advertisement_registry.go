@@ -14,7 +14,7 @@ func (r *registry) NewAdvertisementController() controller.AdvertisementControll
 }
 
 func (r *registry) NewAdvertisementInterfactor() interfactor.AdvertisementInterfactor {
-	return interfactor.NewAdvertisementInteractor(r.NewAdvertisementRepository(), r.NewAdvertisementPresenter())
+	return interfactor.NewAdvertisementInterfactor(r.NewAdvertisementRepository(), r.NewAdvertisementPresenter())
 }
 
 func (r *registry) NewAdvertisementRepository() ur.AdvertisementRepository {
