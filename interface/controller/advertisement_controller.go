@@ -15,6 +15,7 @@ type AdvertisementController interface {
 	GetAdvertisements(c Context) error
 	GetOneAdvertisement(c Context) error
 	CreateAdvertisement(c Context) error
+	DeleteAdvertisement(c Context) error
 }
 
 func NewAdvertisementController(us interfactor.AdvertisementInterfactor) AdvertisementController {
@@ -46,7 +47,7 @@ func (ac *advertisementController) GetOneAdvertisement(c Context) error {
 
 func (ac *advertisementController) CreateAdvertisement(c Context) error {
 	var params model.Advertisement
-
+	// TODO: PARAMS HERE
 	if err := c.Bind(&params); !errors.Is(err, nil) {
 		return err
 	}
@@ -56,5 +57,18 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusCreated, a)
+	return c.JSONPretty(http.StatusCreated, a, "  ")
+}
+
+func (ac *advertisementController) DeleteAdvertisement(c Context) error {
+	var a []*model.Advertisement
+
+	id := c.Param("id")
+
+	a, err := ac.advertisementInterfactor.Delete(a, id)
+	if !errors.Is(err, nil) {
+		return err
+	}
+
+	return c.JSONPretty(http.StatusOK, a, "  ")
 }

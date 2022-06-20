@@ -25,9 +25,7 @@ func (ar *advertisementRepository) FindAll(a []*model.Advertisement) ([]*model.A
 }
 
 func (ar *advertisementRepository) FindOne(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
-	//err := ar.db.Where("id = ?", id).Select("title, photo_1, price").Find(&a).Error
-
-	err := ar.db.Limit(10).Select("title, photo_1, price").Where("id = ?", id).Find(&a).Error
+	err := ar.db.Select("title, description, photo_1, price").Where("id = ?", id).Find(&a).Error
 	if err != nil {
 		return nil, err
 	}
@@ -37,6 +35,15 @@ func (ar *advertisementRepository) FindOne(a []*model.Advertisement, id string) 
 
 func (ar *advertisementRepository) Create(a *model.Advertisement) (*model.Advertisement, error) {
 	if err := ar.db.Create(a).Error; !errors.Is(err, nil) {
+		return nil, err
+	}
+
+	return a, nil
+}
+
+func (ar *advertisementRepository) Delete(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
+	err := ar.db.Where("id = ?", id).Delete(&a).Error
+	if err != nil {
 		return nil, err
 	}
 

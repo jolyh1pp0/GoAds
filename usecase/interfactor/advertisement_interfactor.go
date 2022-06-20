@@ -15,6 +15,7 @@ type AdvertisementInterfactor interface {
 	Get(u []*model.Advertisement) ([]*model.Advertisement, error)
 	GetOne(u []*model.Advertisement, id string) ([]*model.Advertisement, error)
 	Create(u *model.Advertisement) (*model.Advertisement, error)
+	Delete(u []*model.Advertisement, id string) ([]*model.Advertisement, error)
 }
 
 func NewAdvertisementInterfactor(r repository.AdvertisementRepository, p presenter.AdvertisementPresenter) AdvertisementInterfactor {
@@ -42,15 +43,24 @@ func (us *advertisementInterfactor) GetOne(u []*model.Advertisement, id string) 
 func (us *advertisementInterfactor) Create(u *model.Advertisement) (*model.Advertisement, error) {
 
 	user := model.Advertisement{
-		ID:          2222,
-		Title:       "222",
-		Description: "222",
-		Price:       222,
-		Photo_1:     "222",
-		Photo_2:     "222",
-		Photo_3:     "222",
+		ID:          333,
+		Title:       "333",
+		Description: "333",
+		Price:       333,
+		Photo_1:     "333",
+		Photo_2:     "",
+		Photo_3:     "",
 	}
 	u, err := us.AdvertisementRepository.Create(&user)
+	if err != nil {
+		return nil, err
+	}
+	// TODO: Create
+	return u, err
+}
+
+func (us *advertisementInterfactor) Delete(u []*model.Advertisement, id string) ([]*model.Advertisement, error) {
+	u, err := us.AdvertisementRepository.Delete(u, id)
 	if err != nil {
 		return nil, err
 	}
