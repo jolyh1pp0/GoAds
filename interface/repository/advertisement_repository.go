@@ -25,7 +25,7 @@ func (ar *advertisementRepository) FindAll(a []*model.Advertisement) ([]*model.A
 }
 
 func (ar *advertisementRepository) FindOne(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
-	err := ar.db.Select("title, description, photo_1, price").Where("id = ?", id).Find(&a).Error
+	err := ar.db.Select("title, description, photo_1, photo_2, photo_3, price").Where("id = ?", id).Find(&a).Error
 	if err != nil {
 		return nil, err
 	}
