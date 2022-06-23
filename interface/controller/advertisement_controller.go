@@ -101,5 +101,5 @@ func (ac *advertisementController) DeleteAdvertisement(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusOK, a, "  ")
+	return c.JSONPretty(http.StatusOK, "Advertisement №"+id+" deleted", "  ")
 }
