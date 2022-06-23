@@ -18,7 +18,7 @@
   dateSort=cheap
   
 ### Create advertisement
-- curl -F "Title=Mercedes S63 AMG Coupe" -F "Description=Отличное состояние, максимальная комплектация." -F "Price=2827165" -F "Photo_1=https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp" -F "Photo_2=https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp" -F "Photo_3=https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp" http://localhost:8080/create
+- http://localhost:8080/create?Title=Mercedes S63 AMG Coupe&Description=Отличное состояние, максимальная комплектация.&Price=2827165&Photo_1=https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp&Photo_2=https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp&Photo_3=https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp
 
 ### Delete advertisement
 - http://localhost:8080/delete/id
