@@ -1,3 +1,8 @@
+## Migrations
+- migrate -path db/migrations -database postgresql://postgres:111111@localhost:5432/ads?sslmode=disable up
+- migrate -path db/migrations -database postgresql://postgres:111111@localhost:5432/ads?sslmode=disable down
+
+
 ## Routes
 ### Get all advertisements
 - http://localhost:8080/advertisements?offset=0 <br />
@@ -17,8 +22,3 @@
 
 ### Delete advertisement
 - http://localhost:8080/delete/id
-
-
-## Migrations
-- migrate -path db/migrations -database postgresql://postgres:111111@localhost:5432/ads?sslmode=disable up
-- migrate -path db/migrations -database postgresql://postgres:111111@localhost:5432/ads?sslmode=disable down
