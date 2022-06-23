@@ -12,7 +12,7 @@ type advertisementInterfactor struct {
 }
 
 type AdvertisementInterfactor interface {
-	Get(u []*model.Advertisement, limit string, offset string) ([]*model.Advertisement, error)
+	Get(u []*model.Advertisement, limit string, offset string, orderQuery string) ([]*model.Advertisement, error)
 	GetOne(u []*model.Advertisement, id string) ([]*model.Advertisement, error)
 	Create(u *model.Advertisement) (*model.Advertisement, error)
 	Delete(u []*model.Advertisement, id string) ([]*model.Advertisement, error)
@@ -22,8 +22,8 @@ func NewAdvertisementInterfactor(r repository.AdvertisementRepository, p present
 	return &advertisementInterfactor{r, p}
 }
 
-func (us *advertisementInterfactor) Get(u []*model.Advertisement, limit string, offset string) ([]*model.Advertisement, error) {
-	u, err := us.AdvertisementRepository.FindAll(u, limit, offset)
+func (us *advertisementInterfactor) Get(u []*model.Advertisement, limit string, offset string, orderQuery string) ([]*model.Advertisement, error) {
+	u, err := us.AdvertisementRepository.FindAll(u, limit, offset, orderQuery)
 	if err != nil {
 		return nil, err
 	}

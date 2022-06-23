@@ -15,8 +15,8 @@ func NewAdvertisementRepository(db *gorm.DB) repository.AdvertisementRepository 
 	return &advertisementRepository{db}
 }
 
-func (ar *advertisementRepository) FindAll(a []*model.Advertisement, limit string, offset string) ([]*model.Advertisement, error) {
-	err := ar.db.Limit(limit).Offset(offset).Select("title, photo_1, price").Find(&a).Error
+func (ar *advertisementRepository) FindAll(a []*model.Advertisement, limit string, offset string, orderQuery string) ([]*model.Advertisement, error) {
+	err := ar.db.Limit(limit).Offset(offset).Select("title, photo_1, price").Order(orderQuery).Find(&a).Error
 	if err != nil {
 		return nil, err
 	}

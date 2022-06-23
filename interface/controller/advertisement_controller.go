@@ -26,10 +26,23 @@ func NewAdvertisementController(us interfactor.AdvertisementInterfactor) Adverti
 
 func (ac *advertisementController) GetAdvertisements(c Context) error {
 	var a []*model.Advertisement
-
+	var orderQuery string
 	offset := c.QueryParam("offset")
+	priceSort := c.QueryParam("priceSort")
+	if priceSort == "cheap" {
+		orderQuery = "price ASC"
+	} else if priceSort == "expensive" {
+		orderQuery = "price DESC"
+	}
 
-	a, err := ac.advertisementInterfactor.Get(a, "10", offset)
+	dateSort := c.QueryParam("dateSort")
+	if dateSort == "oldest" {
+		orderQuery = "created_at ASC"
+	} else if dateSort == "newest" {
+		orderQuery = "created_at DESC"
+	}
+
+	a, err := ac.advertisementInterfactor.Get(a, "10", offset, orderQuery)
 	if err != nil {
 		return err
 	}
