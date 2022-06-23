@@ -2,13 +2,11 @@ package interfactor
 
 import (
 	"GoAds/domain/model"
-	"GoAds/usecase/presenter"
 	"GoAds/usecase/repository"
 )
 
 type advertisementInterfactor struct {
 	AdvertisementRepository repository.AdvertisementRepository
-	AdvertisementPresenter  presenter.AdvertisementPresenter
 }
 
 type AdvertisementInterfactor interface {
@@ -18,8 +16,8 @@ type AdvertisementInterfactor interface {
 	Delete(u []*model.Advertisement, id string) ([]*model.Advertisement, error)
 }
 
-func NewAdvertisementInterfactor(r repository.AdvertisementRepository, p presenter.AdvertisementPresenter) AdvertisementInterfactor {
-	return &advertisementInterfactor{r, p}
+func NewAdvertisementInterfactor(r repository.AdvertisementRepository) AdvertisementInterfactor {
+	return &advertisementInterfactor{r}
 }
 
 func (us *advertisementInterfactor) Get(u []*model.Advertisement, limit string, offset string, orderQuery string) ([]*model.Advertisement, error) {
@@ -28,7 +26,7 @@ func (us *advertisementInterfactor) Get(u []*model.Advertisement, limit string, 
 		return nil, err
 	}
 
-	return us.AdvertisementPresenter.ResponseAdvertisements(u), nil
+	return u, nil
 }
 
 func (us *advertisementInterfactor) GetOne(u []*model.Advertisement, id string) ([]*model.Advertisement, error) {
@@ -37,7 +35,7 @@ func (us *advertisementInterfactor) GetOne(u []*model.Advertisement, id string) 
 		return nil, err
 	}
 
-	return us.AdvertisementPresenter.ResponseAdvertisements(u), nil
+	return u, nil
 }
 
 func (us *advertisementInterfactor) Create(u *model.Advertisement) (*model.Advertisement, error) {
