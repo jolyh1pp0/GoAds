@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "6e3c2feb-f0c4-4017-890a-864bb274132b",
+		"name": "GoAds Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21610212"
+	},
+	"item": [
+		{
+			"name": "Get all advertisements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/advertisements?offset=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all advertisements and sort by date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/advertisements?offset=0&dateSort=newest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "dateSort",
+							"value": "newest"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all advertisements and sort by price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/advertisements?offset=0&priceSort=expensive",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "priceSort",
+							"value": "expensive"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete advertisement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/delete/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delete",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create advertisemet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/create?Title=Mercedes S63 AMG Coupe&Description=Отличное состояние, максимальная комплектация.&Price=2827165&Photo_1=https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp&Photo_2=https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp&Photo_3=https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"create"
+					],
+					"query": [
+						{
+							"key": "Title",
+							"value": "Mercedes S63 AMG Coupe"
+						},
+						{
+							"key": "Description",
+							"value": "Отличное состояние, максимальная комплектация."
+						},
+						{
+							"key": "Price",
+							"value": "2827165"
+						},
+						{
+							"key": "Photo_1",
+							"value": "https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp"
+						},
+						{
+							"key": "Photo_2",
+							"value": "https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp"
+						},
+						{
+							"key": "Photo_3",
+							"value": "https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
