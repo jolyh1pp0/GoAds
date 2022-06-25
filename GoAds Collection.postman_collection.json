@@ -90,6 +90,26 @@
 			"response": []
 		},
 		{
+			"name": "Get one advertisement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/advertisements/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Delete advertisement",
 			"request": {
 				"method": "GET",
