@@ -29,6 +29,9 @@ func (ac *advertisementController) GetAdvertisements(c Context) error {
 	var orderQuery string
 	offset := c.QueryParam("offset")
 	limit := c.QueryParam("limit")
+	if limit == "" {
+		limit = "10"
+	}
 	priceSort := c.QueryParam("priceSort")
 	if priceSort == "cheap" {
 		orderQuery = "price ASC"
