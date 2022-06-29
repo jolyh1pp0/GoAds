@@ -5,4 +5,5 @@ type Context interface {
 	Param(name string) string
 	FormValue(name string) string
 	QueryParam(name string) string
+	Bind(i interface{}) error
 }
