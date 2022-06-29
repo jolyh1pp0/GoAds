@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/advertisements",
+					"raw": "http://localhost:8080/advertisements?offset=0&limit=5",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,8 +24,11 @@
 					"query": [
 						{
 							"key": "offset",
-							"value": "0",
-							"disabled": true
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "5"
 						},
 						{
 							"key": "dateSort",
