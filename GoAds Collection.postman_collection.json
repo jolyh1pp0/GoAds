@@ -7,12 +7,12 @@
 	},
 	"item": [
 		{
-			"name": "Get all advertisements",
+			"name": "Get advertisements",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/advertisements?offset=0",
+					"raw": "http://localhost:8080/advertisements",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,65 +24,20 @@
 					"query": [
 						{
 							"key": "offset",
-							"value": "0"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all advertisements and sort by date",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/advertisements?offset=0&dateSort=newest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"advertisements"
-					],
-					"query": [
-						{
-							"key": "offset",
-							"value": "0"
+							"value": "0",
+							"disabled": true
 						},
 						{
 							"key": "dateSort",
-							"value": "newest"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all advertisements and sort by price",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/advertisements?offset=0&priceSort=expensive",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"advertisements"
-					],
-					"query": [
-						{
-							"key": "offset",
-							"value": "0"
+							"value": "newest",
+							"description": "newest or oldest",
+							"disabled": true
 						},
 						{
 							"key": "priceSort",
-							"value": "expensive"
+							"value": "cheap",
+							"description": "expensive or cheap",
+							"disabled": true
 						}
 					]
 				}
@@ -110,65 +65,77 @@
 			"response": []
 		},
 		{
-			"name": "Delete advertisement",
+			"name": "Create advertisemet",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Title\": \"Mercedes S63 AMG Coupe S\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:8080/delete/5",
+					"raw": "http://localhost:8080/advertisements",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"delete",
-						"5"
+						"advertisements"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Create advertisemet",
+			"name": "Put advertisement",
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Title\": \"Mercedes S63 AMG Coupe 123\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:8080/create?Title=Mercedes S63 AMG Coupe&Description=Отличное состояние, максимальная комплектация.&Price=2827165&Photo_1=https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp&Photo_2=https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp&Photo_3=https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp",
+					"raw": "http://localhost:8080/advertisements/35",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"create"
+						"advertisements",
+						"35"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete advertisement",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/advertisements/16",
+					"protocol": "http",
+					"host": [
+						"localhost"
 					],
-					"query": [
-						{
-							"key": "Title",
-							"value": "Mercedes S63 AMG Coupe"
-						},
-						{
-							"key": "Description",
-							"value": "Отличное состояние, максимальная комплектация."
-						},
-						{
-							"key": "Price",
-							"value": "2827165"
-						},
-						{
-							"key": "Photo_1",
-							"value": "https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp"
-						},
-						{
-							"key": "Photo_2",
-							"value": "https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp"
-						},
-						{
-							"key": "Photo_3",
-							"value": "https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp"
-						}
+					"port": "8080",
+					"path": [
+						"advertisements",
+						"16"
 					]
 				}
 			},
