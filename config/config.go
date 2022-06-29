@@ -25,8 +25,8 @@ var C config
 
 func ReadConfig() {
 	Config := &C
-	viper.AddConfigPath("./config")
-	viper.SetConfigName("config")
+	viper.AddConfigPath("./")
+	viper.SetConfigName("config.example")
 	viper.SetConfigType("yml")
 
 	if err := viper.ReadInConfig(); err != nil {
