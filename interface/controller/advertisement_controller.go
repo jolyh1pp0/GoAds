@@ -28,6 +28,7 @@ func (ac *advertisementController) GetAdvertisements(c Context) error {
 	var a []*model.Advertisement
 	var orderQuery string
 	offset := c.QueryParam("offset")
+	limit := c.QueryParam("limit")
 	priceSort := c.QueryParam("priceSort")
 	if priceSort == "cheap" {
 		orderQuery = "price ASC"
@@ -42,7 +43,7 @@ func (ac *advertisementController) GetAdvertisements(c Context) error {
 		orderQuery = "created_at DESC"
 	}
 
-	a, err := ac.advertisementInterfactor.Get(a, "10", offset, orderQuery)
+	a, err := ac.advertisementInterfactor.Get(a, limit, offset, orderQuery)
 	if err != nil {
 		return err
 	}
