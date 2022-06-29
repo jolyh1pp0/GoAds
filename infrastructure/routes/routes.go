@@ -14,7 +14,7 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 	e.GET("/advertisements/:id", func(context echo.Context) error { return c.Advertisement.GetOneAdvertisement(context) })
 
 	e.PUT("/advertisements/:id", func(context echo.Context) error { return c.Advertisement.UpdateAdvertisement(context) })
-	// TODO: Update
+
 	e.POST("/advertisements", func(context echo.Context) error { return c.Advertisement.CreateAdvertisement(context) })
 
 	e.DELETE("advertisements/:id", func(context echo.Context) error { return c.Advertisement.DeleteAdvertisement(context) })
