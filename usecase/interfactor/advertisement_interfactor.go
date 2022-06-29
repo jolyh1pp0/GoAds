@@ -13,6 +13,7 @@ type AdvertisementInterfactor interface {
 	Get(u []*model.Advertisement, limit string, offset string, orderQuery string) ([]*model.Advertisement, error)
 	GetOne(u []*model.Advertisement, id string) ([]*model.Advertisement, error)
 	Create(u *model.Advertisement) (*model.Advertisement, error)
+	Update(u *model.Advertisement, id string) (*model.Advertisement, error)
 	Delete(u []*model.Advertisement, id string) ([]*model.Advertisement, error)
 }
 
@@ -40,6 +41,15 @@ func (us *advertisementInterfactor) GetOne(u []*model.Advertisement, id string) 
 
 func (us *advertisementInterfactor) Create(u *model.Advertisement) (*model.Advertisement, error) {
 	u, err := us.AdvertisementRepository.Create(u)
+	if err != nil {
+		return nil, err
+	}
+
+	return u, err
+}
+
+func (us *advertisementInterfactor) Update(u *model.Advertisement, id string) (*model.Advertisement, error) {
+	u, err := us.AdvertisementRepository.Update(u, id)
 	if err != nil {
 		return nil, err
 	}

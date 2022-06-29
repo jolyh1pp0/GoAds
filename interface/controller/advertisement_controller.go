@@ -15,6 +15,7 @@ type advertisementController struct {
 type AdvertisementController interface {
 	GetAdvertisements(c Context) error
 	GetOneAdvertisement(c Context) error
+	UpdateAdvertisement(c Context) error
 	CreateAdvertisement(c Context) error
 	DeleteAdvertisement(c Context) error
 }
@@ -70,6 +71,24 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 	}
 
 	a, err := ac.advertisementInterfactor.Create(&advertisement)
+	if !errors.Is(err, nil) {
+		return err
+	}
+
+	return c.JSONPretty(http.StatusCreated, a, "  ")
+}
+
+func (ac *advertisementController) UpdateAdvertisement(c Context) error {
+	var advertisement model.Advertisement
+
+	err := c.Bind(&advertisement)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	id := c.Param("id")
+
+	a, err := ac.advertisementInterfactor.Update(&advertisement, id)
 	if !errors.Is(err, nil) {
 		return err
 	}

@@ -41,6 +41,14 @@ func (ar *advertisementRepository) Create(a *model.Advertisement) (*model.Advert
 	return a, nil
 }
 
+func (ar *advertisementRepository) Update(a *model.Advertisement, id string) (*model.Advertisement, error) {
+	if err := ar.db.Model(&a).Where("id = ?", id).Update(a).Error; !errors.Is(err, nil) {
+		return nil, err
+	}
+
+	return a, nil
+}
+
 func (ar *advertisementRepository) Delete(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
 	err := ar.db.Where("id = ?", id).Delete(&a).Error
 	if err != nil {
