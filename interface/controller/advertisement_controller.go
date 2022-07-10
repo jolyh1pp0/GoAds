@@ -5,6 +5,7 @@ import (
 	"GoAds/usecase/interfactor"
 	"errors"
 	"fmt"
+	"github.com/labstack/echo"
 	"net/http"
 )
 
@@ -76,7 +77,7 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 
 	a, err := ac.advertisementInterfactor.Create(&advertisement)
 	if !errors.Is(err, nil) {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
 	return c.JSONPretty(http.StatusCreated, a, "  ")
@@ -94,7 +95,7 @@ func (ac *advertisementController) UpdateAdvertisement(c Context) error {
 
 	a, err := ac.advertisementInterfactor.Update(&advertisement, id)
 	if !errors.Is(err, nil) {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
 	return c.JSONPretty(http.StatusCreated, a, "  ")
