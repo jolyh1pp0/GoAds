@@ -6,7 +6,7 @@ type Advertisement struct {
 	ID          uint       `gorm:"primary_key" json:"id,omitempty"`
 	Title       string     `json:"title,omitempty"`
 	Description string     `json:"description,omitempty"`
-	Price       float32    `json:"price,omitempty"`
+	Price       int        `json:"price,omitempty"`
 	Photo_1     string     `json:"photo_1,omitempty"`
 	Photo_2     string     `json:"photo_2,omitempty"`
 	Photo_3     string     `json:"photo_3,omitempty"`

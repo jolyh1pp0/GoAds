@@ -2,7 +2,7 @@ CREATE TABLE advertisements (
     id SERIAL NOT NULL PRIMARY KEY,
     title VARCHAR(200) NOT NULL UNIQUE,
     description VARCHAR(1000),
-    price FLOAT NOT NULL,
+    price BIGINT NOT NULL,
     photo_1 VARCHAR(255),
     photo_2 VARCHAR(255),
     photo_3 VARCHAR(255),
