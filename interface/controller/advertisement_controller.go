@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/interfactor"
 	"errors"
@@ -21,8 +20,8 @@ type AdvertisementController interface {
 	DeleteAdvertisement(c Context) error
 }
 
-func NewAdvertisementController(us interfactor.AdvertisementInterfactor) AdvertisementController {
-	return &advertisementController{us}
+func NewAdvertisementController(ad interfactor.AdvertisementInterfactor) AdvertisementController {
+	return &advertisementController{ad}
 }
 
 func (ac *advertisementController) GetAdvertisements(c Context) error {
@@ -77,7 +76,7 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 
 	a, err := ac.advertisementInterfactor.Create(&advertisement)
 	if !errors.Is(err, nil) {
-		return domain.ErrAdvertisementTitleAlreadyExists
+		return err
 	}
 
 	return c.JSONPretty(http.StatusCreated, a, "  ")
@@ -95,7 +94,7 @@ func (ac *advertisementController) UpdateAdvertisement(c Context) error {
 
 	a, err := ac.advertisementInterfactor.Update(&advertisement, id)
 	if !errors.Is(err, nil) {
-		return domain.ErrAdvertisementTitleAlreadyExists
+		return err
 	}
 
 	return c.JSONPretty(http.StatusCreated, a, "  ")
