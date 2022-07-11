@@ -1,4 +1,5 @@
 ## To run the application
+- create *config.yml* by *config.example.yml* in /config folder
 - type *make startapp* to console
 
 
