@@ -38,7 +38,7 @@ func (ar *advertisementRepository) Create(a *model.Advertisement) (*model.Advert
 	err := ar.db.Create(a).Error
 
 	if err != nil {
-		if err.Error() == domain.ErrDBAlreadyWithTitle {
+		if err.Error() == domain.ErrAdvertisementAlreadyWithTitle {
 			return nil, domain.ErrAdvertisementTitleAlreadyExists
 		}
 		return nil, domain.ErrAdvertisementInternalServerError
