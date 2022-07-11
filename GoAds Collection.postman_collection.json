@@ -7,142 +7,268 @@
 	},
 	"item": [
 		{
-			"name": "Get advertisements",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/advertisements?offset=0&limit=5",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"advertisements"
-					],
-					"query": [
-						{
-							"key": "offset",
-							"value": "0"
-						},
-						{
-							"key": "limit",
-							"value": "5"
-						},
-						{
-							"key": "dateSort",
-							"value": "newest",
-							"description": "newest or oldest",
-							"disabled": true
-						},
-						{
-							"key": "priceSort",
-							"value": "cheap",
-							"description": "expensive or cheap",
-							"disabled": true
+			"name": "Advertisements",
+			"item": [
+				{
+					"name": "Get advertisements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/advertisements?offset=0&limit=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"advertisements"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "dateSort",
+									"value": "newest",
+									"description": "newest or oldest",
+									"disabled": true
+								},
+								{
+									"key": "priceSort",
+									"value": "cheap",
+									"description": "expensive or cheap",
+									"disabled": true
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get one advertisement",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/advertisements/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"advertisements",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create advertisemet",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"Title\": \"Mercedes S63 AMG Coupe S\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/advertisements",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"advertisements"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Put advertisement",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"Title\": \"Mercedes S63 AMG Coupe 123\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Get one advertisement",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/advertisements/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"advertisements",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/advertisements/35",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"advertisements",
-						"35"
-					]
+				{
+					"name": "Create advertisemet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Title\": \"Mercedes S63 AMG Coupe S\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/advertisements",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"advertisements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update advertisement",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Title\": \"Mercedes S63 AMG Coupe рS\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/advertisements/39",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"advertisements",
+								"39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete advertisement",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/advertisements/16",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"advertisements",
+								"16"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Delete advertisement",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/advertisements/16",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"advertisements",
-						"16"
-					]
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/2ea0790d-118a-4afe-b139-49396216877e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2ea0790d-118a-4afe-b139-49396216877e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"anonymous@gmail.com\",\r\n    \"Password\": \"anonymous\",\r\n    \"first_name\": \"Christopher\",\r\n    \"last_name\": \"Poole\",\r\n    \"time_zone\": \"PT\",\r\n    \"phone\": \"+16666666666\",\r\n    \"verified_type\": \"email\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"updated password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/2ea0790d-118a-4afe-b139-49396216877e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2ea0790d-118a-4afe-b139-49396216877e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/66afc5b3-787b-41d9-8d45-53cbea5564f1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"66afc5b3-787b-41d9-8d45-53cbea5564f1"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
