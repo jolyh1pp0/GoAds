@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/repository"
 	"errors"
@@ -34,10 +35,14 @@ func (ar *advertisementRepository) FindOne(a []*model.Advertisement, id string) 
 }
 
 func (ar *advertisementRepository) Create(a *model.Advertisement) (*model.Advertisement, error) {
-	if err := ar.db.Create(a).Error; !errors.Is(err, nil) {
-		return nil, err
-	}
+	err := ar.db.Create(a).Error
 
+	if err != nil {
+		if err.Error() == domain.ErrDBAlreadyWithTitle {
+			return nil, domain.ErrAdvertisementTitleAlreadyExists
+		}
+		return nil, domain.ErrAdvertisementInternalServerError
+	}
 	return a, nil
 }
 

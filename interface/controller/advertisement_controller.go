@@ -1,11 +1,11 @@
 package controller
 
 import (
+	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/interfactor"
 	"errors"
 	"fmt"
-	"github.com/labstack/echo"
 	"net/http"
 )
 
@@ -77,7 +77,7 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 
 	a, err := ac.advertisementInterfactor.Create(&advertisement)
 	if !errors.Is(err, nil) {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+		return domain.ErrAdvertisementTitleAlreadyExists
 	}
 
 	return c.JSONPretty(http.StatusCreated, a, "  ")
@@ -95,7 +95,7 @@ func (ac *advertisementController) UpdateAdvertisement(c Context) error {
 
 	a, err := ac.advertisementInterfactor.Update(&advertisement, id)
 	if !errors.Is(err, nil) {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+		return domain.ErrAdvertisementTitleAlreadyExists
 	}
 
 	return c.JSONPretty(http.StatusCreated, a, "  ")
