@@ -4,7 +4,7 @@ import (
 	"GoAds/domain/model"
 	"GoAds/usecase/interfactor"
 	"errors"
-	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -71,7 +71,7 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 
 	err := c.Bind(&advertisement)
 	if err != nil {
-		fmt.Println(err)
+		log.Print(err)
 	}
 
 	a, err := ac.advertisementInterfactor.Create(&advertisement)
@@ -87,7 +87,7 @@ func (ac *advertisementController) UpdateAdvertisement(c Context) error {
 
 	err := c.Bind(&advertisement)
 	if err != nil {
-		fmt.Println(err)
+		log.Print(err)
 	}
 
 	id := c.Param("id")

@@ -4,7 +4,6 @@ import (
 	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/repository"
-	"errors"
 	"github.com/jinzhu/gorm"
 )
 
@@ -47,8 +46,13 @@ func (ar *advertisementRepository) Create(a *model.Advertisement) (*model.Advert
 }
 
 func (ar *advertisementRepository) Update(a *model.Advertisement, id string) (*model.Advertisement, error) {
-	if err := ar.db.Model(&a).Where("id = ?", id).Update(a).Error; !errors.Is(err, nil) {
-		return nil, err
+	err := ar.db.Model(&a).Where("id = ?", id).Update(a).Error
+
+	if err != nil {
+		if err.Error() == domain.ErrAdvertisementAlreadyWithTitle {
+			return nil, domain.ErrAdvertisementTitleAlreadyExists
+		}
+		return nil, domain.ErrAdvertisementInternalServerError
 	}
 
 	return a, nil

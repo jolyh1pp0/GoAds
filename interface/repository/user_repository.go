@@ -4,7 +4,6 @@ import (
 	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/repository"
-	"errors"
 	"fmt"
 	"github.com/jinzhu/gorm"
 )
@@ -45,14 +44,20 @@ func (ur *userRepository) Create(u *model.User) (*model.User, error) {
 		} else if err.Error() == domain.ErrUserAlreadyWithPhone {
 			return nil, domain.ErrUserPhoneAlreadyExists
 		}
-		return nil, domain.ErrUserPhoneAlreadyExists
+		return nil, domain.ErrUserInternalServerError
 	}
 	return u, nil
 }
 
 func (ur *userRepository) Update(u *model.User, id string) (*model.User, error) {
-	if err := ur.db.Model(&u).Where("id = ?", id).Update(u).Error; !errors.Is(err, nil) {
-		return nil, err
+	err := ur.db.Model(&u).Where("id = ?", id).Update(u).Error
+	if err != nil {
+		if err.Error() == domain.ErrUserAlreadyWithEmail {
+			return nil, domain.ErrUserEmailAlreadyExists
+		} else if err.Error() == domain.ErrUserAlreadyWithPhone {
+			return nil, domain.ErrUserPhoneAlreadyExists
+		}
+		return nil, domain.ErrUserInternalServerError
 	}
 
 	return u, nil

@@ -1,11 +1,10 @@
 package controller
 
 import (
-	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/interfactor"
 	"errors"
-	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -53,7 +52,7 @@ func (uc *userController) CreateUser(c Context) error {
 
 	err := c.Bind(&user)
 	if err != nil {
-		fmt.Println(err)
+		log.Print(err)
 	}
 
 	u, err := uc.userInterfactor.Create(&user)
@@ -69,14 +68,14 @@ func (uc *userController) UpdateUser(c Context) error {
 
 	err := c.Bind(&user)
 	if err != nil {
-		fmt.Println(err)
+		log.Print(err)
 	}
 
 	id := c.Param("id")
 
 	u, err := uc.userInterfactor.Update(&user, id)
 	if !errors.Is(err, nil) {
-		return domain.ErrAdvertisementTitleAlreadyExists
+		return err
 	}
 
 	return c.JSONPretty(http.StatusCreated, u, "  ")
