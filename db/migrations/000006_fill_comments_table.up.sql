@@ -1,0 +1,3 @@
+INSERT INTO public.comments (id, advertisement_id, content, user_id, created_at, updated_at) VALUES (1, 5, 'Example text', 1, '2022-07-22 22:02:26.380132', '2022-07-22 22:02:26.380132');
+INSERT INTO public.comments (id, advertisement_id, content, user_id, created_at, updated_at) VALUES (2, 2, 'Lorem ipsum', 1, '2022-07-22 22:02:26.380132', '2022-07-22 22:02:26.380132');
+INSERT INTO public.comments (id, advertisement_id, content, user_id, created_at, updated_at) VALUES (3, 8, 'None', 2, '2022-07-22 22:02:26.380132', '2022-07-22 22:02:26.380132');
