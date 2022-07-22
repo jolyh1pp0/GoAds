@@ -21,5 +21,6 @@ func (r *registry) NewAppController() controller.AppController {
 	return controller.AppController{
 		Advertisement: r.NewAdvertisementController(),
 		User:          r.NewUserController(),
+		Comment:       r.NewCommentController(),
 	}
 }
