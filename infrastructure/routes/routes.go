@@ -22,5 +22,11 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 	e.POST("/users", func(context echo.Context) error { return c.User.CreateUser(context) })
 	e.DELETE("users/:id", func(context echo.Context) error { return c.User.DeleteUser(context) })
 
+	e.GET("/comments", func(context echo.Context) error { return c.Comment.GetComments(context) })
+	e.GET("/comments/:id", func(context echo.Context) error { return c.Comment.GetOneComment(context) })
+	e.PUT("/comments/:id", func(context echo.Context) error { return c.Comment.UpdateComment(context) })
+	e.POST("/comments", func(context echo.Context) error { return c.Comment.CreateComment(context) })
+	e.DELETE("comments/:id", func(context echo.Context) error { return c.Comment.DeleteComment(context) })
+
 	return e
 }
