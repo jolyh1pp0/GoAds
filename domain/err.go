@@ -17,3 +17,5 @@ var ErrAdvertisementTitleAlreadyExists = echo.NewHTTPError(http.StatusBadRequest
 var ErrUserInternalServerError = echo.NewHTTPError(http.StatusInternalServerError, "Internal server error.")
 var ErrUserEmailAlreadyExists = echo.NewHTTPError(http.StatusBadRequest, "Status 400 Bad Request. Email already exists.")
 var ErrUserPhoneAlreadyExists = echo.NewHTTPError(http.StatusBadRequest, "Status 400 Bad Request. Phone already exists.")
+
+var ErrCommentInternalServerError = echo.NewHTTPError(http.StatusInternalServerError, "Internal server error.")
