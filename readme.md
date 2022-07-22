@@ -8,7 +8,8 @@
 - migrate -path db/migrations -database postgresql://postgres:111111@localhost:5432/ads?sslmode=disable down
 
 
-## Routes
+# Routes
+## Advertisements
 ### Get all advertisements
 - http://localhost:8080/advertisements?offset=0&limit=5 <br>
   offset=0 - first page <br>
@@ -31,5 +32,40 @@
 ### Create advertisement
 - Send JSON to http://localhost:8080/advertisements
 
+### Update advertisement
+- Send JSON to http://localhost:8080/advertisements/id
+
 ### Delete advertisement
 - http://localhost:8080/advertisements/id
+
+## Users
+### Get all users
+- http://localhost:8080/users <br>
+
+### Get one user
+- http://localhost:8080/users/uuid
+
+### Create user
+- Send JSON to http://localhost:8080/users
+
+### Update user
+- Send JSON to http://localhost:8080/users/uuid
+
+### Delete user
+- http://localhost:8080/users/uuid
+
+## Comments
+### Get all comments
+- http://localhost:8080/comments <br>
+
+### Get one comment
+- http://localhost:8080/comments/id
+
+### Create comment
+- Send JSON to http://localhost:8080/comments
+
+### Update comment
+- Send JSON to http://localhost:8080/comments/id
+
+### Delete comment
+- http://localhost:8080/users/id
