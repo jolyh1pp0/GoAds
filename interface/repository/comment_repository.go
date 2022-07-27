@@ -4,7 +4,6 @@ import (
 	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/repository"
-	"fmt"
 	"github.com/jinzhu/gorm"
 )
 
@@ -17,7 +16,6 @@ func NewCommentRepository(db *gorm.DB) repository.CommentRepository {
 }
 
 func (cr *commentRepository) FindAll(c []*model.Comment) ([]*model.Comment, error) {
-	fmt.Println(cr.db.Select("id, user_id, advertisement_id, content, created_at").Find(&c))
 	err := cr.db.Select("id, user_id, advertisement_id, content, created_at").Find(&c).Error
 	if err != nil {
 		return nil, err
