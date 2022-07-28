@@ -1,4 +1,4 @@
-CREATE TYPE verified_types AS ENUM('email', 'phone', 'google');
+--CREATE TYPE verified_types AS ENUM('email', 'phone', 'google');
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users (
