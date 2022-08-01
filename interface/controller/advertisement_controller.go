@@ -41,9 +41,9 @@ func (ac *advertisementController) GetAdvertisements(c Context) error {
 
 	dateSort := c.QueryParam("dateSort")
 	if dateSort == "oldest" {
-		orderQuery = "created_at ASC"
+		orderQuery = "advertisements.created_at ASC"
 	} else if dateSort == "newest" {
-		orderQuery = "created_at DESC"
+		orderQuery = "advertisements.created_at DESC"
 	}
 
 	a, err := ac.advertisementInterfactor.Get(a, limit, offset, orderQuery)
@@ -74,12 +74,12 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 		log.Print(err)
 	}
 
-	a, err := ac.advertisementInterfactor.Create(&advertisement)
+	err = ac.advertisementInterfactor.Create(&advertisement)
 	if !errors.Is(err, nil) {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusCreated, a, "  ")
+	return c.JSONPretty(http.StatusCreated, "Advertisement created", "  ")
 }
 
 func (ac *advertisementController) UpdateAdvertisement(c Context) error {

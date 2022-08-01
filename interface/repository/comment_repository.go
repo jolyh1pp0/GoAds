@@ -16,7 +16,7 @@ func NewCommentRepository(db *gorm.DB) repository.CommentRepository {
 }
 
 func (cr *commentRepository) FindAll(c []*model.Comment) ([]*model.Comment, error) {
-	err := cr.db.Select("id, user_id, advertisement_id, content, created_at").Find(&c).Error
+	err := cr.db.Model(&c).Select("*").Preload("User").Find(&c).Error
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func (cr *commentRepository) FindAll(c []*model.Comment) ([]*model.Comment, erro
 }
 
 func (cr *commentRepository) FindOne(c []*model.Comment, id string) ([]*model.Comment, error) {
-	err := cr.db.Select("id, user_id, advertisement_id, content, created_at").Where("id = ?", id).Find(&c).Error
+	err := cr.db.Model(&c).Select("*").Preload("User").Where("comments.id = ?", id).Find(&c).Error
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (cr *commentRepository) FindOne(c []*model.Comment, id string) ([]*model.Co
 }
 
 func (cr *commentRepository) Create(c *model.Comment) (*model.Comment, error) {
-	err := cr.db.Create(c).Error
+	err := cr.db.Model(&c).Create(c).Error
 
 	if err != nil {
 		return nil, domain.ErrCommentInternalServerError
@@ -53,7 +53,7 @@ func (cr *commentRepository) Update(c *model.Comment, id string) (*model.Comment
 }
 
 func (cr *commentRepository) Delete(c []*model.Comment, id string) ([]*model.Comment, error) {
-	err := cr.db.Where("id = ?", id).Delete(&c).Error
+	err := cr.db.Model(&c).Where("id = ?", id).Delete(&c).Error
 	if err != nil {
 		return nil, err
 	}

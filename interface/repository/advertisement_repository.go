@@ -16,7 +16,7 @@ func NewAdvertisementRepository(db *gorm.DB) repository.AdvertisementRepository 
 }
 
 func (ar *advertisementRepository) FindAll(a []*model.Advertisement, limit string, offset string, orderQuery string) ([]*model.Advertisement, error) {
-	err := ar.db.Limit(limit).Offset(offset).Select("title, photo_1, price").Order(orderQuery).Find(&a).Error
+	err := ar.db.Limit(limit).Offset(offset).Model(&a).Select("title, description, photo_1, price, created_at, user_id").Order(orderQuery).Preload("User").Find(&a).Error
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,8 @@ func (ar *advertisementRepository) FindAll(a []*model.Advertisement, limit strin
 }
 
 func (ar *advertisementRepository) FindOne(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
-	err := ar.db.Select("title, description, photo_1, photo_2, photo_3, price").Where("id = ?", id).Find(&a).Error
+	err := ar.db.Model(&a).Select("*").Where("advertisements.id = ?", id).Preload("User").Preload("Comment.User").Find(&a).Error
+
 	if err != nil {
 		return nil, err
 	}
@@ -33,16 +34,16 @@ func (ar *advertisementRepository) FindOne(a []*model.Advertisement, id string) 
 	return a, nil
 }
 
-func (ar *advertisementRepository) Create(a *model.Advertisement) (*model.Advertisement, error) {
-	err := ar.db.Create(a).Error
+func (ar *advertisementRepository) Create(a *model.Advertisement) error {
+	err := ar.db.Model(&a).Create(a).Error
 
 	if err != nil {
 		if err.Error() == domain.ErrAdvertisementAlreadyWithTitle {
-			return nil, domain.ErrAdvertisementTitleAlreadyExists
+			return domain.ErrAdvertisementTitleAlreadyExists
 		}
-		return nil, domain.ErrAdvertisementInternalServerError
+		return domain.ErrAdvertisementInternalServerError
 	}
-	return a, nil
+	return nil
 }
 
 func (ar *advertisementRepository) Update(a *model.Advertisement, id string) (*model.Advertisement, error) {
@@ -59,7 +60,7 @@ func (ar *advertisementRepository) Update(a *model.Advertisement, id string) (*m
 }
 
 func (ar *advertisementRepository) Delete(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
-	err := ar.db.Where("id = ?", id).Delete(&a).Error
+	err := ar.db.Model(&a).Where("id = ?", id).Delete(&a).Error
 	if err != nil {
 		return nil, err
 	}
