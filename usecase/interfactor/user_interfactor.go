@@ -12,7 +12,6 @@ type userInterfactor struct {
 type UserInterfactor interface {
 	Get(u []*model.User) ([]*model.User, error)
 	GetOne(u []*model.User, id string) ([]*model.User, error)
-	Create(u *model.User) (*model.User, error)
 	Update(u *model.User, id string) (*model.User, error)
 	Delete(u []*model.User, id string) ([]*model.User, error)
 }
@@ -37,15 +36,6 @@ func (us *userInterfactor) GetOne(u []*model.User, id string) ([]*model.User, er
 	}
 
 	return u, nil
-}
-
-func (us *userInterfactor) Create(u *model.User) (*model.User, error) {
-	u, err := us.UserRepository.Create(u)
-	if err != nil {
-		return nil, err
-	}
-
-	return u, err
 }
 
 func (us *userInterfactor) Update(u *model.User, id string) (*model.User, error) {
