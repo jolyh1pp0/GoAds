@@ -19,3 +19,9 @@ var ErrUserEmailAlreadyExists = echo.NewHTTPError(http.StatusBadRequest, "Status
 var ErrUserPhoneAlreadyExists = echo.NewHTTPError(http.StatusBadRequest, "Status 400 Bad Request. Phone already exists.")
 
 var ErrCommentInternalServerError = echo.NewHTTPError(http.StatusInternalServerError, "Internal server error.")
+
+var ErrInvalidEmailAddress = echo.NewHTTPError(http.StatusInternalServerError, "Invalid email address")
+var ErrEmailIsNotFound = echo.NewHTTPError(http.StatusInternalServerError, "User with this email doesn't exist")
+
+var ErrInsecurePassword = echo.NewHTTPError(http.StatusInternalServerError, "Insecure password, try including more special characters, using lowercase letters, using uppercase letters or using a longer password")
+var ErrInvalidPassword = echo.NewHTTPError(http.StatusInternalServerError, "Invalid password")

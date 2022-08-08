@@ -35,20 +35,6 @@ func (ur *userRepository) FindOne(u []*model.User, id string) ([]*model.User, er
 	return u, nil
 }
 
-func (ur *userRepository) Create(u *model.User) (*model.User, error) {
-	err := ur.db.Model(&u).Create(u).Error
-
-	if err != nil {
-		if err.Error() == domain.ErrUserAlreadyWithEmail {
-			return nil, domain.ErrUserEmailAlreadyExists
-		} else if err.Error() == domain.ErrUserAlreadyWithPhone {
-			return nil, domain.ErrUserPhoneAlreadyExists
-		}
-		return nil, domain.ErrUserInternalServerError
-	}
-	return u, nil
-}
-
 func (ur *userRepository) Update(u *model.User, id string) (*model.User, error) {
 	err := ur.db.Model(&u).Where("id = ?", id).Update(u).Error
 

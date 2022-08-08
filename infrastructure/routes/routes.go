@@ -8,6 +8,18 @@ import (
 
 func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 	e.Use(middleware.Recover())
+	e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
+		SigningKey: []byte("example_key"),
+		TokenLookup: "header:Authorization",
+		Skipper: func(c echo.Context) bool {
+			if c.Request().URL.Path == "/login" {
+				return true
+			} else if c.Request().URL.Path == "/register" {
+				return true
+			}
+			return false
+		},
+	}))
 
 	e.GET("/advertisements", func(context echo.Context) error { return c.Advertisement.GetAdvertisements(context) })
 	e.GET("/advertisements/:id", func(context echo.Context) error { return c.Advertisement.GetOneAdvertisement(context) })
@@ -18,7 +30,6 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 	e.GET("/users", func(context echo.Context) error { return c.User.GetUsers(context) })
 	e.GET("/users/:id", func(context echo.Context) error { return c.User.GetOneUser(context) })
 	e.PUT("/users/:id", func(context echo.Context) error { return c.User.UpdateUser(context) })
-	e.POST("/users", func(context echo.Context) error { return c.User.CreateUser(context) })
 	e.DELETE("users/:id", func(context echo.Context) error { return c.User.DeleteUser(context) })
 
 	e.GET("/comments", func(context echo.Context) error { return c.Comment.GetComments(context) })
@@ -26,6 +37,9 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 	e.PUT("/comments/:id", func(context echo.Context) error { return c.Comment.UpdateComment(context) })
 	e.POST("/comments", func(context echo.Context) error { return c.Comment.CreateComment(context) })
 	e.DELETE("comments/:id", func(context echo.Context) error { return c.Comment.DeleteComment(context) })
+
+	e.POST("/register", func(context echo.Context) error { return c.Authorization.CreateUser(context) })
+	e.GET("/login", func(context echo.Context) error { return c.Authorization.Login(context) })
 
 	return e
 }

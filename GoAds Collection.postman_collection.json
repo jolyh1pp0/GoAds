@@ -15,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/advertisements?offset=0&limit=5",
+							"raw": "http://localhost:8080/advertisements?offset=0&limit=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -31,11 +31,11 @@
 								},
 								{
 									"key": "limit",
-									"value": "5"
+									"value": "10"
 								},
 								{
 									"key": "dateSort",
-									"value": "newest",
+									"value": "oldest",
 									"description": "newest or oldest",
 									"disabled": true
 								},
@@ -56,7 +56,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/advertisements/1",
+							"raw": "http://localhost:8080/advertisements/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -64,7 +64,7 @@
 							"port": "8080",
 							"path": [
 								"advertisements",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -77,7 +77,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Title\": \"Mercedes S63 AMG Coupe S\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
+							"raw": "{\r\n    \"user_id\": \"2ea0790d-118a-4afe-b139-49396216877e\",\r\n    \"Title\": \"Mercedes S63 AMG Coupe S1232sы2s\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -105,7 +105,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Title\": \"Mercedes S63 AMG Coupe рS\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
+							"raw": "{\r\n    \"Title\": \"M\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,7 +113,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/advertisements/39",
+							"raw": "http://localhost:8080/advertisements/77",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -121,7 +121,7 @@
 							"port": "8080",
 							"path": [
 								"advertisements",
-								"39"
+								"77"
 							]
 						}
 					},
@@ -133,7 +133,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/advertisements/16",
+							"raw": "http://localhost:8080/advertisements/77",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -141,7 +141,7 @@
 							"port": "8080",
 							"path": [
 								"advertisements",
-								"16"
+								"77"
 							]
 						}
 					},
@@ -177,7 +177,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users/2ea0790d-118a-4afe-b139-49396216877e",
+							"raw": "http://localhost:8080/users/1d637b34-787d-4f7f-8168-22a9ac9d1171",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -185,20 +185,23 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"2ea0790d-118a-4afe-b139-49396216877e"
+								"1d637b34-787d-4f7f-8168-22a9ac9d1171"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Create user",
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Email\": \"anonymous@gmail.com\",\r\n    \"Password\": \"anonymous\",\r\n    \"first_name\": \"Christopher\",\r\n    \"last_name\": \"Poole\",\r\n    \"time_zone\": \"PT\",\r\n    \"phone\": \"+16666666666\",\r\n    \"verified_type\": \"email\"\r\n}",
+							"raw": "{\r\n    \"Email\": \"admin@gmail.com\",\r\n    \"Password\": \"SuPeRaDmIn1234567890//\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -206,14 +209,42 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users",
+							"raw": "http://localhost:8080/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"users"
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"anonymosuc11s22ss1s1sss22@gmail.com\",\r\n    \"Password\": \"anonymous\",\r\n    \"first_name\": \"Christopher\",\r\n    \"last_name\": \"Poole\",\r\n    \"phone\": \"+166s66s265c2ss6s32616s6\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"register"
 							]
 						}
 					},
@@ -226,7 +257,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"updated password\"\r\n}",
+							"raw": "{\r\n    \"password\": \"updated first_name\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -234,7 +265,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users/2ea0790d-118a-4afe-b139-49396216877e",
+							"raw": "http://localhost:8080/users/3856ec32-1d21-41a5-ae9f-aa9b86d5ac51",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -242,7 +273,7 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"2ea0790d-118a-4afe-b139-49396216877e"
+								"3856ec32-1d21-41a5-ae9f-aa9b86d5ac51"
 							]
 						}
 					},
@@ -254,7 +285,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users/66afc5b3-787b-41d9-8d45-53cbea5564f1",
+							"raw": "http://localhost:8080/users/3380433e-1429-4617-a348-d6d090e33c01",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -262,7 +293,7 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"66afc5b3-787b-41d9-8d45-53cbea5564f1"
+								"3380433e-1429-4617-a348-d6d090e33c01"
 							]
 						}
 					},
@@ -298,7 +329,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/comments/2",
+							"raw": "http://localhost:8080/comments/14",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -306,7 +337,7 @@
 							"port": "8080",
 							"path": [
 								"comments",
-								"2"
+								"14"
 							]
 						}
 					},
@@ -319,7 +350,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"advertisement_id\": \"4\",\r\n    \"Content\": \"Some text\",\r\n    \"user_id\": \"2\"\r\n}",
+							"raw": "{\r\n    \"advertisement_id\": 75,\r\n    \"Content\": \"Some text\",\r\n    \"user_id\": \"6bd4bdf7-8b65-419d-b4d9-b95e968911ed\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -347,7 +378,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\": \"updated comment content\"\r\n}",
+							"raw": "{\r\n    \"content\": \"updated comment contents\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -355,7 +386,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/comments/2",
+							"raw": "http://localhost:8080/comments/14",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -363,7 +394,7 @@
 							"port": "8080",
 							"path": [
 								"comments",
-								"2"
+								"14"
 							]
 						}
 					},
@@ -375,7 +406,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/comments/2",
+							"raw": "http://localhost:8080/comments/23",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -383,7 +414,7 @@
 							"port": "8080",
 							"path": [
 								"comments",
-								"2"
+								"23"
 							]
 						}
 					},

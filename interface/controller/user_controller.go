@@ -16,7 +16,6 @@ type UserController interface {
 	GetUsers(c Context) error
 	GetOneUser(c Context) error
 	UpdateUser(c Context) error
-	CreateUser(c Context) error
 	DeleteUser(c Context) error
 }
 
@@ -47,22 +46,6 @@ func (uc *userController) GetOneUser(c Context) error {
 	return c.JSONPretty(http.StatusOK, u, "  ")
 }
 
-func (uc *userController) CreateUser(c Context) error {
-	var user model.User
-
-	err := c.Bind(&user)
-	if err != nil {
-		log.Print(err)
-	}
-
-	u, err := uc.userInterfactor.Create(&user)
-	if !errors.Is(err, nil) {
-		return err
-	}
-
-	return c.JSONPretty(http.StatusCreated, u, "  ")
-}
-
 func (uc *userController) UpdateUser(c Context) error {
 	var user model.User
 
@@ -91,5 +74,5 @@ func (uc *userController) DeleteUser(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusOK, "User "+id+" deleted", "  ")
+	return c.JSONPretty(http.StatusOK, "User " + id + " deleted", "  ")
 }
