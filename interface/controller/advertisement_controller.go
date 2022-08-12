@@ -25,7 +25,7 @@ func NewAdvertisementController(ad interfactor.AdvertisementInterfactor) Adverti
 }
 
 func (ac *advertisementController) GetAdvertisements(c Context) error {
-	var a []*model.Advertisement
+	var a []*model.GetAdvertisementsResponseData
 	var orderQuery string
 	offset := c.QueryParam("offset")
 	limit := c.QueryParam("limit")

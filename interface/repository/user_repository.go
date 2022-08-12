@@ -15,7 +15,7 @@ func NewUserRepository(db *gorm.DB) repository.UserRepository {
 	return &userRepository{db}
 }
 
-func (ur *userRepository) FindAll(u []*model.User) ([]*model.User, error) {
+func (ur *userRepository) FindAll(u []*model.GetUsersResponseData) ([]*model.GetUsersResponseData, error) {
 	err := ur.db.Model(&u).Select("*").Find(&u).Error
 
 	if err != nil {
@@ -25,7 +25,7 @@ func (ur *userRepository) FindAll(u []*model.User) ([]*model.User, error) {
 	return u, nil
 }
 
-func (ur *userRepository) FindOne(u []*model.User, id string) ([]*model.User, error) {
+func (ur *userRepository) FindOne(u []*model.GetUsersResponseData, id string) ([]*model.GetUsersResponseData, error) {
 	err := ur.db.Model(&u).Select("*").Where("id = ?", id).Find(&u).Error
 
 	if err != nil {

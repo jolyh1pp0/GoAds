@@ -25,7 +25,7 @@ func NewCommentController(co interfactor.CommentInterfactor) CommentController {
 }
 
 func (cc *commentController) GetComments(c Context) error {
-	var co []*model.Comment
+	var co []*model.GetCommentsResponseData
 
 	co, err := cc.commentInterfactor.Get(co)
 	if err != nil {
@@ -36,7 +36,7 @@ func (cc *commentController) GetComments(c Context) error {
 }
 
 func (cc *commentController) GetOneComment(c Context) error {
-	var co []*model.Comment
+	var co []*model.GetCommentsResponseData
 	id := c.Param("id")
 
 	co, err := cc.commentInterfactor.GetOne(co, id)
