@@ -10,8 +10,8 @@ type commentInterfactor struct {
 }
 
 type CommentInterfactor interface {
-	Get(c []*model.Comment) ([]*model.Comment, error)
-	GetOne(c []*model.Comment, id string) ([]*model.Comment, error)
+	Get(c []*model.GetCommentsResponseData) ([]*model.GetCommentsResponseData, error)
+	GetOne(c []*model.GetCommentsResponseData, id string) ([]*model.GetCommentsResponseData, error)
 	Create(c *model.Comment) (*model.Comment, error)
 	Update(c *model.Comment, id string) (*model.Comment, error)
 	Delete(c []*model.Comment, id string) ([]*model.Comment, error)
@@ -21,7 +21,7 @@ func NewCommentInterfactor(r repository.CommentRepository) CommentInterfactor {
 	return &commentInterfactor{r}
 }
 
-func (co *commentInterfactor) Get(c []*model.Comment) ([]*model.Comment, error) {
+func (co *commentInterfactor) Get(c []*model.GetCommentsResponseData) ([]*model.GetCommentsResponseData, error) {
 	c, err := co.CommentRepository.FindAll(c)
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func (co *commentInterfactor) Get(c []*model.Comment) ([]*model.Comment, error) 
 	return c, nil
 }
 
-func (co *commentInterfactor) GetOne(c []*model.Comment, id string) ([]*model.Comment, error) {
+func (co *commentInterfactor) GetOne(c []*model.GetCommentsResponseData, id string) ([]*model.GetCommentsResponseData, error) {
 	c, err := co.CommentRepository.FindOne(c, id)
 	if err != nil {
 		return nil, err

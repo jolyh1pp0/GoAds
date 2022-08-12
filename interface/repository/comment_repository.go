@@ -15,7 +15,7 @@ func NewCommentRepository(db *gorm.DB) repository.CommentRepository {
 	return &commentRepository{db}
 }
 
-func (cr *commentRepository) FindAll(c []*model.Comment) ([]*model.Comment, error) {
+git statfunc (cr *commentRepository) FindAll(c []*model.GetCommentsResponseData) ([]*model.GetCommentsResponseData, error) {
 	err := cr.db.Model(&c).Select("*").Preload("User").Find(&c).Error
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func (cr *commentRepository) FindAll(c []*model.Comment) ([]*model.Comment, erro
 	return c, nil
 }
 
-func (cr *commentRepository) FindOne(c []*model.Comment, id string) ([]*model.Comment, error) {
+func (cr *commentRepository) FindOne(c []*model.GetCommentsResponseData, id string) ([]*model.GetCommentsResponseData, error) {
 	err := cr.db.Model(&c).Select("*").Preload("User").Where("comments.id = ?", id).Find(&c).Error
 	if err != nil {
 		return nil, err

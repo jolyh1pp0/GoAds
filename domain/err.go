@@ -25,3 +25,5 @@ var ErrEmailIsNotFound = echo.NewHTTPError(http.StatusInternalServerError, "User
 
 var ErrInsecurePassword = echo.NewHTTPError(http.StatusInternalServerError, "Insecure password, try including more special characters, using lowercase letters, using uppercase letters or using a longer password")
 var ErrInvalidPassword = echo.NewHTTPError(http.StatusInternalServerError, "Invalid password")
+
+var ErrInvalidAccessToken = echo.NewHTTPError(http.StatusInternalServerError, "Invalid or expired access token")

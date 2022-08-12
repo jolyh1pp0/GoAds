@@ -24,7 +24,7 @@ func NewUserController(us interfactor.UserInterfactor) UserController {
 }
 
 func (uc *userController) GetUsers(c Context) error {
-	var u []*model.User
+	var u []*model.GetUsersResponseData
 
 	u, err := uc.userInterfactor.Get(u)
 	if err != nil {
@@ -35,7 +35,7 @@ func (uc *userController) GetUsers(c Context) error {
 }
 
 func (uc *userController) GetOneUser(c Context) error {
-	var u []*model.User
+	var u []*model.GetUsersResponseData
 	id := c.Param("id")
 
 	u, err := uc.userInterfactor.GetOne(u, id)
@@ -74,5 +74,5 @@ func (uc *userController) DeleteUser(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusOK, "User " + id + " deleted", "  ")
+	return c.JSONPretty(http.StatusOK, "User "+id+" deleted", "  ")
 }

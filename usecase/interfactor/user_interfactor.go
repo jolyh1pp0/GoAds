@@ -10,8 +10,8 @@ type userInterfactor struct {
 }
 
 type UserInterfactor interface {
-	Get(u []*model.User) ([]*model.User, error)
-	GetOne(u []*model.User, id string) ([]*model.User, error)
+	Get(u []*model.GetUsersResponseData) ([]*model.GetUsersResponseData, error)
+	GetOne(u []*model.GetUsersResponseData, id string) ([]*model.GetUsersResponseData, error)
 	Update(u *model.User, id string) (*model.User, error)
 	Delete(u []*model.User, id string) ([]*model.User, error)
 }
@@ -20,7 +20,7 @@ func NewUserInterfactor(r repository.UserRepository) UserInterfactor {
 	return &userInterfactor{r}
 }
 
-func (us *userInterfactor) Get(u []*model.User) ([]*model.User, error) {
+func (us *userInterfactor) Get(u []*model.GetUsersResponseData) ([]*model.GetUsersResponseData, error) {
 	u, err := us.UserRepository.FindAll(u)
 	if err != nil {
 		return nil, err
@@ -29,7 +29,7 @@ func (us *userInterfactor) Get(u []*model.User) ([]*model.User, error) {
 	return u, nil
 }
 
-func (us *userInterfactor) GetOne(u []*model.User, id string) ([]*model.User, error) {
+func (us *userInterfactor) GetOne(u []*model.GetUsersResponseData, id string) ([]*model.GetUsersResponseData, error) {
 	u, err := us.UserRepository.FindOne(u, id)
 	if err != nil {
 		return nil, err
