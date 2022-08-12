@@ -5,8 +5,7 @@ import (
 	"GoAds/domain/model"
 	"GoAds/usecase/interfactor"
 	"errors"
-	"fmt"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/kataras/jwt"
 	passwordvalidator "github.com/wagslane/go-password-validator"
 	"golang.org/x/crypto/bcrypt"
 	"log"
@@ -15,14 +14,13 @@ import (
 	"time"
 )
 
-const key = "example_key"
+var key = []byte("example_key")
 
 type authorizationController struct {
 	authorizationInterfactor interfactor.AuthorizationInterfactor
 }
 
-type tokenClaims struct {
-	jwt.StandardClaims
+type tokenClaims struct { // token lowercase TODO
 	UserID string `json:"user_id"`
 }
 
@@ -70,32 +68,33 @@ func (ac *authorizationController) CreateUser(c Context) error {
 	return c.JSONPretty(http.StatusCreated, u, "  ")
 }
 
+
 func GenerateJWT(userID string) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
-		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(15 * time.Minute).Unix(),
-		},
-		userID,
-	})
-
-	return token.SignedString([]byte(key))
-}
-
-func ParseToken(accessToken string) (string, error){
-	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New("invalid signing method")
-		}
-
-		return []byte(key), nil
-	})
-	if err != nil {
-		return "", err
+	claims := tokenClaims{
+		UserID: userID,
 	}
 
-	claims, ok := token.Claims.(*tokenClaims)
-	if !ok {
-		return "", errors.New("token claims are not of type *tokenClaims*")
+	token, err := jwt.Sign(jwt.HS256, key, claims, jwt.MaxAge(15*time.Minute))
+	if err != nil {
+		log.Println(err)
+		return "", domain.ErrInvalidAccessToken
+	}
+
+	return string(token), nil
+}
+
+func ParseToken(accessToken string) (string, error) {
+	verifiedToken, err := jwt.Verify(jwt.HS256, key, []byte(accessToken))
+	if err != nil {
+		log.Println(err)
+		return "", domain.ErrInvalidAccessToken
+	}
+
+	claims := &tokenClaims{}
+	err = verifiedToken.Claims(claims)
+	if err != nil {
+		log.Println(err)
+		return "", domain.ErrInvalidAccessToken
 	}
 
 	return claims.UserID, nil
@@ -125,7 +124,6 @@ func (ac *authorizationController) Login(c Context) error {
 	if err != nil {
 		log.Print(err)
 	}
-	fmt.Println(token)
 
-	return c.JSONPretty(http.StatusOK, "Successfully logged in", "")
+	return c.JSONPretty(http.StatusOK, "Successfully logged in. Access token: " + token , "")
 }
