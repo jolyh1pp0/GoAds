@@ -15,7 +15,7 @@ func NewCommentRepository(db *gorm.DB) repository.CommentRepository {
 	return &commentRepository{db}
 }
 
-git statfunc (cr *commentRepository) FindAll(c []*model.GetCommentsResponseData) ([]*model.GetCommentsResponseData, error) {
+func (cr *commentRepository) FindAll(c []*model.GetCommentsResponseData) ([]*model.GetCommentsResponseData, error) {
 	err := cr.db.Model(&c).Select("*").Preload("User").Find(&c).Error
 	if err != nil {
 		return nil, err
