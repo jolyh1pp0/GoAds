@@ -24,8 +24,8 @@ func (ar *advertisementRepository) FindAll(a []*model.GetAdvertisementsResponseD
 	return a, nil
 }
 
-func (ar *advertisementRepository) FindOne(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
-	err := ar.db.Model(&a).Select("*").Where("advertisements.id = ?", id).Preload("User").Preload("Comment.User").Find(&a).Error
+func (ar *advertisementRepository) FindOne(a []*model.GetAdvertisementsResponseData, id string) ([]*model.GetAdvertisementsResponseData, error) {
+	err := ar.db.Model(&a).Select("*").Where("advertisements.id = ?", id).Preload("User").Preload("Comments.User").Find(&a).Error
 
 	if err != nil {
 		return nil, err

@@ -55,7 +55,7 @@ func (ac *advertisementController) GetAdvertisements(c Context) error {
 }
 
 func (ac *advertisementController) GetOneAdvertisement(c Context) error {
-	var a []*model.Advertisement
+	var a []*model.GetAdvertisementsResponseData
 	id := c.Param("id")
 
 	a, err := ac.advertisementInterfactor.GetOne(a, id)
