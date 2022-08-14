@@ -73,6 +73,7 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 	if err != nil {
 		log.Print(err)
 	}
+	advertisement.UserID = getUserID(c)
 
 	err = ac.advertisementInterfactor.Create(&advertisement)
 	if !errors.Is(err, nil) {
@@ -89,10 +90,10 @@ func (ac *advertisementController) UpdateAdvertisement(c Context) error {
 	if err != nil {
 		log.Print(err)
 	}
-
+	userID := getUserID(c)
 	id := c.Param("id")
 
-	a, err := ac.advertisementInterfactor.Update(&advertisement, id)
+	a, err := ac.advertisementInterfactor.Update(&advertisement, id, userID)
 	if !errors.Is(err, nil) {
 		return err
 	}
@@ -103,9 +104,10 @@ func (ac *advertisementController) UpdateAdvertisement(c Context) error {
 func (ac *advertisementController) DeleteAdvertisement(c Context) error {
 	var a []*model.Advertisement
 
+	userID := getUserID(c)
 	id := c.Param("id")
 
-	a, err := ac.advertisementInterfactor.Delete(a, id)
+	a, err := ac.advertisementInterfactor.Delete(a, id, userID)
 	if !errors.Is(err, nil) {
 		return err
 	}

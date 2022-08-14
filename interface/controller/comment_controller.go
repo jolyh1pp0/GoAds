@@ -48,12 +48,13 @@ func (cc *commentController) GetOneComment(c Context) error {
 }
 
 func (cc *commentController) CreateComment(c Context) error {
-	var comment model.Comment
+	var comment model.GetCommentsCreateUpdateData
 
 	err := c.Bind(&comment)
 	if err != nil {
 		log.Print(err)
 	}
+	comment.UserID = getUserID(c)
 
 	co, err := cc.commentInterfactor.Create(&comment)
 	if !errors.Is(err, nil) {
@@ -64,16 +65,17 @@ func (cc *commentController) CreateComment(c Context) error {
 }
 
 func (cc *commentController) UpdateComment(c Context) error {
-	var comment model.Comment
+	var comment model.GetCommentsCreateUpdateData
 
 	err := c.Bind(&comment)
 	if err != nil {
 		log.Print(err)
 	}
 
+	userID := getUserID(c)
 	id := c.Param("id")
 
-	co, err := cc.commentInterfactor.Update(&comment, id)
+	co, err := cc.commentInterfactor.Update(&comment, id, userID)
 	if !errors.Is(err, nil) {
 		return err
 	}
@@ -84,9 +86,10 @@ func (cc *commentController) UpdateComment(c Context) error {
 func (cc *commentController) DeleteComment(c Context) error {
 	var co []*model.Comment
 
+	userID := getUserID(c)
 	id := c.Param("id")
 
-	co, err := cc.commentInterfactor.Delete(co, id)
+	co, err := cc.commentInterfactor.Delete(co, id, userID)
 	if !errors.Is(err, nil) {
 		return err
 	}

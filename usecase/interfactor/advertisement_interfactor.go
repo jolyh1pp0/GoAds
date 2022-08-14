@@ -13,8 +13,8 @@ type AdvertisementInterfactor interface {
 	Get(u []*model.GetAdvertisementsResponseData, limit string, offset string, orderQuery string) ([]*model.GetAdvertisementsResponseData, error)
 	GetOne(u []*model.GetAdvertisementsResponseData, id string) ([]*model.GetAdvertisementsResponseData, error)
 	Create(u *model.Advertisement) error
-	Update(u *model.Advertisement, id string) (*model.Advertisement, error)
-	Delete(u []*model.Advertisement, id string) ([]*model.Advertisement, error)
+	Update(u *model.Advertisement, id string, userID string) (*model.Advertisement, error)
+	Delete(u []*model.Advertisement, id string, userID string) ([]*model.Advertisement, error)
 }
 
 func NewAdvertisementInterfactor(r repository.AdvertisementRepository) AdvertisementInterfactor {
@@ -48,8 +48,8 @@ func (us *advertisementInterfactor) Create(u *model.Advertisement) error {
 	return err
 }
 
-func (us *advertisementInterfactor) Update(u *model.Advertisement, id string) (*model.Advertisement, error) {
-	u, err := us.AdvertisementRepository.Update(u, id)
+func (us *advertisementInterfactor) Update(u *model.Advertisement, id string, userID string) (*model.Advertisement, error) {
+	u, err := us.AdvertisementRepository.Update(u, id, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -57,8 +57,8 @@ func (us *advertisementInterfactor) Update(u *model.Advertisement, id string) (*
 	return u, err
 }
 
-func (us *advertisementInterfactor) Delete(u []*model.Advertisement, id string) ([]*model.Advertisement, error) {
-	u, err := us.AdvertisementRepository.Delete(u, id)
+func (us *advertisementInterfactor) Delete(u []*model.Advertisement, id string, userID string) ([]*model.Advertisement, error) {
+	u, err := us.AdvertisementRepository.Delete(u, id, userID)
 	if err != nil {
 		return nil, err
 	}

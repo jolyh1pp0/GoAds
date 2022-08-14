@@ -28,7 +28,9 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 			return domain.ErrInvalidAccessToken
 		}
 
-		c.Set("UserID", userID)
+		c.Set(domain.SessionDataKey, domain.SessionData{
+			UserID: userID,
+		})
 
 	return next(c)
 	}

@@ -25,3 +25,14 @@ type GetCommentsResponseData struct {
 }
 
 func (GetCommentsResponseData) TableName() string { return "comments" }
+
+type GetCommentsCreateUpdateData struct {
+	ID              uint                 `json:"id,omitempty"`
+	AdvertisementId uint                 `json:"advertisement_id,omitempty"`
+	Content         string               `json:"content,omitempty"`
+	UserID          string               `json:"-"`
+	CreatedAt       *time.Time           `json:"created_at,omitempty"`
+	UpdatedAt       *time.Time           `json:"updated_at,omitempty"`
+}
+
+func (GetCommentsCreateUpdateData) TableName() string { return "comments" }
