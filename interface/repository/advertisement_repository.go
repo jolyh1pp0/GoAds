@@ -46,23 +46,28 @@ func (ar *advertisementRepository) Create(a *model.Advertisement) error {
 	return nil
 }
 
-func (ar *advertisementRepository) Update(a *model.Advertisement, id string) (*model.Advertisement, error) {
-	err := ar.db.Model(&a).Where("id = ?", id).Update(a).Error
+func (ar *advertisementRepository) Update(a *model.Advertisement, id string, userID string) (*model.Advertisement, error) {
+	result := ar.db.Model(&a).Where("id = ? and user_id = ?", id, userID).Update(a)
 
-	if err != nil {
-		if err.Error() == domain.ErrAdvertisementAlreadyWithTitle {
+	if result.Error != nil {
+		if result.Error.Error() == domain.ErrAdvertisementAlreadyWithTitle {
 			return nil, domain.ErrAdvertisementTitleAlreadyExists
 		}
 		return nil, domain.ErrAdvertisementInternalServerError
+	} else if result.RowsAffected == 0 {
+		return nil, domain.ErrForbidden
 	}
 
 	return a, nil
 }
 
-func (ar *advertisementRepository) Delete(a []*model.Advertisement, id string) ([]*model.Advertisement, error) {
-	err := ar.db.Model(&a).Where("id = ?", id).Delete(&a).Error
-	if err != nil {
-		return nil, err
+func (ar *advertisementRepository) Delete(a []*model.Advertisement, id string, userID string) ([]*model.Advertisement, error) {
+	result := ar.db.Model(&a).Where("id = ? and user_id = ?", id, userID).Delete(&a)
+
+	if result.Error != nil {
+		return nil, result.Error
+	} else if result.RowsAffected == 0 {
+		return nil, domain.ErrForbidden
 	}
 
 	return a, nil

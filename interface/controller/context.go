@@ -10,4 +10,5 @@ type Context interface {
 	Bind(i interface{}) error
 	Request() *http.Request
 	Set(key string, val interface{})
+	Get(key string) interface{}
 }

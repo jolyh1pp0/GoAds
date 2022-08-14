@@ -12,9 +12,9 @@ type commentInterfactor struct {
 type CommentInterfactor interface {
 	Get(c []*model.GetCommentsResponseData) ([]*model.GetCommentsResponseData, error)
 	GetOne(c []*model.GetCommentsResponseData, id string) ([]*model.GetCommentsResponseData, error)
-	Create(c *model.Comment) (*model.Comment, error)
-	Update(c *model.Comment, id string) (*model.Comment, error)
-	Delete(c []*model.Comment, id string) ([]*model.Comment, error)
+	Create(c *model.GetCommentsCreateUpdateData) (*model.GetCommentsCreateUpdateData, error)
+	Update(c *model.GetCommentsCreateUpdateData, id string, userID string) (*model.GetCommentsCreateUpdateData, error)
+	Delete(c []*model.Comment, id string, userID string) ([]*model.Comment, error)
 }
 
 func NewCommentInterfactor(r repository.CommentRepository) CommentInterfactor {
@@ -39,7 +39,7 @@ func (co *commentInterfactor) GetOne(c []*model.GetCommentsResponseData, id stri
 	return c, nil
 }
 
-func (co *commentInterfactor) Create(c *model.Comment) (*model.Comment, error) {
+func (co *commentInterfactor) Create(c *model.GetCommentsCreateUpdateData) (*model.GetCommentsCreateUpdateData, error) {
 	c, err := co.CommentRepository.Create(c)
 	if err != nil {
 		return nil, err
@@ -48,8 +48,8 @@ func (co *commentInterfactor) Create(c *model.Comment) (*model.Comment, error) {
 	return c, err
 }
 
-func (co *commentInterfactor) Update(c *model.Comment, id string) (*model.Comment, error) {
-	c, err := co.CommentRepository.Update(c, id)
+func (co *commentInterfactor) Update(c *model.GetCommentsCreateUpdateData, id string, userID string) (*model.GetCommentsCreateUpdateData, error) {
+	c, err := co.CommentRepository.Update(c, id, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -57,8 +57,8 @@ func (co *commentInterfactor) Update(c *model.Comment, id string) (*model.Commen
 	return c, err
 }
 
-func (co *commentInterfactor) Delete(c []*model.Comment, id string) ([]*model.Comment, error) {
-	c, err := co.CommentRepository.Delete(c, id)
+func (co *commentInterfactor) Delete(c []*model.Comment, id string, userID string) ([]*model.Comment, error) {
+	c, err := co.CommentRepository.Delete(c, id, userID)
 	if err != nil {
 		return nil, err
 	}

@@ -20,7 +20,7 @@ type authorizationController struct {
 	authorizationInterfactor interfactor.AuthorizationInterfactor
 }
 
-type tokenClaims struct { // token lowercase TODO
+type tokenClaims struct {
 	UserID string `json:"user_id"`
 }
 
@@ -126,4 +126,11 @@ func (ac *authorizationController) Login(c Context) error {
 	}
 
 	return c.JSONPretty(http.StatusOK, "Successfully logged in. Access token: " + token , "")
+}
+
+func getUserID(c Context) string {
+	rawSessionData := c.Get(domain.SessionDataKey)
+	sessionData, _ := rawSessionData.(domain.SessionData)
+
+	return sessionData.UserID
 }
