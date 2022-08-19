@@ -23,5 +23,7 @@ func (r *registry) NewAppController() controller.AppController {
 		User:          r.NewUserController(),
 		Comment:       r.NewCommentController(),
 		Authorization: r.NewAuthorizationController(),
+		Role: 		   r.NewRoleController(),
+		UserToRole:    r.NewUserToRoleController(),
 	}
 }
