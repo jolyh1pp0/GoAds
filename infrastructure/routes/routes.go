@@ -65,6 +65,24 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 		commentGroup.DELETE("/:id", func(context echo.Context) error { return c.Comment.DeleteComment(context) })
 	}
 
+	roleGroup := e.Group("/roles", Auth)
+	{
+		roleGroup.GET("", func(context echo.Context) error { return c.Role.GetRoles(context) })
+		roleGroup.GET("/:id", func(context echo.Context) error { return c.Role.GetOneRole(context) })
+		roleGroup.PUT("/:id", func(context echo.Context) error { return c.Role.UpdateRole(context) })
+		roleGroup.POST("", func(context echo.Context) error { return c.Role.CreateRole(context) })
+		roleGroup.DELETE("/:id", func(context echo.Context) error { return c.Role.DeleteRole(context) })
+	}
+
+	userToRoleGroup := e.Group("/user-to-role", Auth)
+	{
+		userToRoleGroup.GET("", func(context echo.Context) error { return c.UserToRole.GetUserToRoles(context) })
+		userToRoleGroup.GET("/:id", func(context echo.Context) error { return c.UserToRole.GetOneUserToRole(context) })
+		userToRoleGroup.PUT("/:id", func(context echo.Context) error { return c.UserToRole.UpdateUserToRole(context) })
+		userToRoleGroup.POST("", func(context echo.Context) error { return c.UserToRole.CreateUserToRole(context) })
+		userToRoleGroup.DELETE("/:id", func(context echo.Context) error { return c.UserToRole.DeleteUserToRole(context) })
+	}
+
 	e.POST("/register", func(context echo.Context) error { return c.Authorization.CreateUser(context) })
 	e.GET("/login", func(context echo.Context) error { return c.Authorization.Login(context) })
 
