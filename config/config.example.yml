@@ -8,3 +8,6 @@ database:
 
 server:
   address: 8080
+
+jwt:
+  key: example_key
