@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"errors"
 	"github.com/labstack/echo"
 	"net/http"
 )
@@ -27,5 +28,6 @@ var ErrInsecurePassword = echo.NewHTTPError(http.StatusInternalServerError, "Ins
 var ErrInvalidPassword = echo.NewHTTPError(http.StatusInternalServerError, "Invalid password")
 
 var ErrInvalidAccessToken = echo.NewHTTPError(http.StatusInternalServerError, "Invalid or expired access token")
+var ErrEmptyJWTKey = errors.New("Empty JWT key is not allowed.")
 
 var ErrForbidden = echo.NewHTTPError(http.StatusForbidden, "Status 403 Forbidden.")

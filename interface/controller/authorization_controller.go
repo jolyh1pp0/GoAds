@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"GoAds/config"
 	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/interfactor"
@@ -14,7 +15,7 @@ import (
 	"time"
 )
 
-var key = []byte("example_key")
+var key = []byte(config.C.JWT.Key)
 
 type authorizationController struct {
 	authorizationInterfactor interfactor.AuthorizationInterfactor

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"GoAds/domain"
 	"fmt"
 	"github.com/spf13/viper"
 	"log"
@@ -19,6 +20,9 @@ type config struct {
 	Server struct {
 		Address string
 	}
+	JWT struct{
+		Key string
+	}
 }
 
 var C config
@@ -36,6 +40,12 @@ func ReadConfig() {
 
 	if err := viper.Unmarshal(&Config); err != nil {
 		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	fmt.Println(C.JWT.Key)
+	if C.JWT.Key == "" {
+		log.Println(domain.ErrEmptyJWTKey)
 		os.Exit(1)
 	}
 }
