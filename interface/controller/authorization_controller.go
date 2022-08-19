@@ -66,7 +66,7 @@ func (ac *authorizationController) CreateUser(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusCreated, u, "  ")
+	return c.JSONPretty(http.StatusCreated, "Status 201. User " + u.ID + " created", "  ")
 }
 
 
@@ -126,7 +126,7 @@ func (ac *authorizationController) Login(c Context) error {
 		log.Print(err)
 	}
 
-	return c.JSONPretty(http.StatusOK, "Successfully logged in. Access token: " + token , "")
+	return c.JSONPretty(http.StatusOK, "Status 200. Successfully logged in. Access token: " + token , "")
 }
 
 func getUserID(c Context) string {

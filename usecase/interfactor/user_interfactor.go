@@ -12,7 +12,7 @@ type userInterfactor struct {
 type UserInterfactor interface {
 	Get(u []*model.GetUsersResponseData) ([]*model.GetUsersResponseData, error)
 	GetOne(u []*model.GetUsersResponseData, id string) ([]*model.GetUsersResponseData, error)
-	Update(u *model.User, id string) (*model.User, error)
+	Update(u *model.User, id string) error
 	Delete(u []*model.User, id string) ([]*model.User, error)
 }
 
@@ -38,13 +38,13 @@ func (us *userInterfactor) GetOne(u []*model.GetUsersResponseData, id string) ([
 	return u, nil
 }
 
-func (us *userInterfactor) Update(u *model.User, id string) (*model.User, error) {
-	u, err := us.UserRepository.Update(u, id)
+func (us *userInterfactor) Update(u *model.User, id string) error {
+	err := us.UserRepository.Update(u, id)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return u, err
+	return err
 }
 
 func (us *userInterfactor) Delete(u []*model.User, id string) ([]*model.User, error) {

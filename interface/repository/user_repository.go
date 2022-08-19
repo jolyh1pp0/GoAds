@@ -35,19 +35,19 @@ func (ur *userRepository) FindOne(u []*model.GetUsersResponseData, id string) ([
 	return u, nil
 }
 
-func (ur *userRepository) Update(u *model.User, id string) (*model.User, error) {
+func (ur *userRepository) Update(u *model.User, id string) error {
 	err := ur.db.Model(&u).Where("id = ?", id).Update(u).Error
 
 	if err != nil {
 		if err.Error() == domain.ErrUserAlreadyWithEmail {
-			return nil, domain.ErrUserEmailAlreadyExists
+			return domain.ErrUserEmailAlreadyExists
 		} else if err.Error() == domain.ErrUserAlreadyWithPhone {
-			return nil, domain.ErrUserPhoneAlreadyExists
+			return domain.ErrUserPhoneAlreadyExists
 		}
-		return nil, domain.ErrUserInternalServerError
+		return domain.ErrUserInternalServerError
 	}
 
-	return u, nil
+	return nil
 }
 
 func (ur *userRepository) Delete(u []*model.User, id string) ([]*model.User, error) {
