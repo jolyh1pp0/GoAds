@@ -2,6 +2,7 @@ package routes
 
 import (
 	"GoAds/domain"
+	"GoAds/domain/model"
 	"GoAds/interface/controller"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -22,7 +23,7 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 			return domain.ErrInvalidAccessToken
 		}
 
-		userID, err := controller.ParseToken(headerParts[1])
+		userID, userRoles, err := controller.ParseToken(headerParts[1])
 		if err != nil {
 			log.Println(err)
 			return domain.ErrInvalidAccessToken
@@ -30,16 +31,42 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		c.Set(domain.SessionDataKey, domain.SessionData{
 			UserID: userID,
+			UserRoles: userRoles,
 		})
 
 	return next(c)
 	}
 }
 
+func Role(roleID ...int) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			userRoles := getUserRolesID(c)
+
+			for _, v := range roleID {
+				for _, v2 := range userRoles {
+					if v == v2 {
+						return next(c)
+					}
+				}
+			}
+
+			return domain.ErrForbidden
+		}
+	}
+}
+
+func getUserRolesID(c echo.Context) []int {
+	rawSessionData := c.Get(domain.SessionDataKey)
+	sessionData, _ := rawSessionData.(domain.SessionData)
+
+	return sessionData.UserRoles
+}
+
 func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 	e.Use(middleware.Recover())
 
-	advertisementGroup := e.Group("/advertisements", Auth)
+	advertisementGroup := e.Group("/advertisements", Auth, Role(model.RoleAdvertisementID, model.RoleAdminID))
 	{
 		advertisementGroup.GET("", func(context echo.Context) error { return c.Advertisement.GetAdvertisements(context) })
 		advertisementGroup.GET("/:id", func(context echo.Context) error { return c.Advertisement.GetOneAdvertisement(context) })
@@ -48,7 +75,7 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 		advertisementGroup.DELETE("/:id", func(context echo.Context) error { return c.Advertisement.DeleteAdvertisement(context) })
 	}
 
-	userGroup := e.Group("/users", Auth)
+	userGroup := e.Group("/users", Auth, Role(model.RoleUserID, model.RoleAdminID))
 	{
 		userGroup.GET("", func(context echo.Context) error { return c.User.GetUsers(context) })
 		userGroup.GET("/:id", func(context echo.Context) error { return c.User.GetOneUser(context) })
@@ -56,7 +83,7 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 		userGroup.DELETE("/:id", func(context echo.Context) error { return c.User.DeleteUser(context) })
 	}
 
-	commentGroup := e.Group("/comments", Auth)
+	commentGroup := e.Group("/comments", Auth, Role(model.RoleCommentID, model.RoleAdminID))
 	{
 		commentGroup.GET("", func(context echo.Context) error { return c.Comment.GetComments(context) })
 		commentGroup.GET("/:id", func(context echo.Context) error { return c.Comment.GetOneComment(context) })
@@ -65,16 +92,16 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 		commentGroup.DELETE("/:id", func(context echo.Context) error { return c.Comment.DeleteComment(context) })
 	}
 
-	roleGroup := e.Group("/roles", Auth)
-	{
-		roleGroup.GET("", func(context echo.Context) error { return c.Role.GetRoles(context) })
-		roleGroup.GET("/:id", func(context echo.Context) error { return c.Role.GetOneRole(context) })
-		roleGroup.PUT("/:id", func(context echo.Context) error { return c.Role.UpdateRole(context) })
-		roleGroup.POST("", func(context echo.Context) error { return c.Role.CreateRole(context) })
-		roleGroup.DELETE("/:id", func(context echo.Context) error { return c.Role.DeleteRole(context) })
-	}
+	//roleGroup := e.Group("/roles", Auth)
+	//{
+	//	roleGroup.GET("", func(context echo.Context) error { return c.Role.GetRoles(context) })
+	//	roleGroup.GET("/:id", func(context echo.Context) error { return c.Role.GetOneRole(context) })
+	//	roleGroup.PUT("/:id", func(context echo.Context) error { return c.Role.UpdateRole(context) })
+	//	roleGroup.POST("", func(context echo.Context) error { return c.Role.CreateRole(context) })
+	//	roleGroup.DELETE("/:id", func(context echo.Context) error { return c.Role.DeleteRole(context) })
+	//}
 
-	userToRoleGroup := e.Group("/user-to-role", Auth)
+	userToRoleGroup := e.Group("/user-to-role", Auth, Role(model.RoleUserToRoleID, model.RoleAdminID))
 	{
 		userToRoleGroup.GET("", func(context echo.Context) error { return c.UserToRole.GetUserToRoles(context) })
 		userToRoleGroup.GET("/:id", func(context echo.Context) error { return c.UserToRole.GetOneUserToRole(context) })

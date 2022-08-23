@@ -12,6 +12,7 @@ type authorizationInterfactor struct {
 type AuthorizationInterfactor interface {
 	Create(u *model.User) (*model.User, error)
 	UserExists(email string) (string, string, error)
+	GetUserRoles(userID string) ([]int, error)
 	Login(u []*model.User) ([]*model.User, error)
 }
 
@@ -34,6 +35,14 @@ func (ai *authorizationInterfactor) UserExists(email string) (string, string, er
 		return "", "", err
 	}
 	return password, userID, nil
+}
+
+func (ai *authorizationInterfactor) GetUserRoles(userID string) ([]int, error) {
+	userRoles, err := ai.AuthorizationRepository.GetUserRoles(userID)
+	if err != nil {
+		return nil, err
+	}
+	return userRoles, nil
 }
 
 func (ai *authorizationInterfactor) Login(u []*model.User) ([]*model.User, error) {

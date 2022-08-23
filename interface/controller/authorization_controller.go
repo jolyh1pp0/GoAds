@@ -22,7 +22,8 @@ type authorizationController struct {
 }
 
 type tokenClaims struct {
-	UserID string `json:"user_id"`
+	UserID    string `json:"user_id"`
+	UserRoles []int  `json:"user_roles"`
 }
 
 type AuthorizationController interface {
@@ -70,9 +71,10 @@ func (ac *authorizationController) CreateUser(c Context) error {
 }
 
 
-func GenerateJWT(userID string) (string, error) {
+func GenerateJWT(userID string, userRoles []int) (string, error) {
 	claims := tokenClaims{
 		UserID: userID,
+		UserRoles: userRoles,
 	}
 
 	token, err := jwt.Sign(jwt.HS256, key, claims, jwt.MaxAge(15*time.Minute))
@@ -84,21 +86,21 @@ func GenerateJWT(userID string) (string, error) {
 	return string(token), nil
 }
 
-func ParseToken(accessToken string) (string, error) {
+func ParseToken(accessToken string) (string, []int, error) {
 	verifiedToken, err := jwt.Verify(jwt.HS256, key, []byte(accessToken))
 	if err != nil {
 		log.Println(err)
-		return "", domain.ErrInvalidAccessToken
+		return "", nil, domain.ErrInvalidAccessToken
 	}
 
 	claims := &tokenClaims{}
 	err = verifiedToken.Claims(claims)
 	if err != nil {
 		log.Println(err)
-		return "", domain.ErrInvalidAccessToken
+		return "", nil, domain.ErrInvalidAccessToken
 	}
 
-	return claims.UserID, nil
+	return claims.UserID, claims.UserRoles, nil
 }
 
 func (ac *authorizationController) Login(c Context) error {
@@ -121,7 +123,13 @@ func (ac *authorizationController) Login(c Context) error {
 		return domain.ErrInvalidPassword
 	}
 
-	token, err := GenerateJWT(userID)
+	userRoles, err := ac.authorizationInterfactor.GetUserRoles(userID)
+	if err != nil {
+		log.Print(err)
+		return domain.ErrEmailIsNotFound // TODO:Error
+	}
+
+	token, err := GenerateJWT(userID, userRoles)
 	if err != nil {
 		log.Print(err)
 	}
