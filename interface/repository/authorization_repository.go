@@ -5,6 +5,7 @@ import (
 	"GoAds/domain/model"
 	"GoAds/usecase/repository"
 	"github.com/jinzhu/gorm"
+	"strconv"
 )
 
 type authorizationRepository struct {
@@ -38,6 +39,26 @@ func (ar *authorizationRepository) UserExists(email string) (string, string, err
 	}
 
 	return user.Password, user.ID, nil
+}
+
+func (ar *authorizationRepository) GetUserRoles(userID string) ([]int, error) {
+	result, _ := ar.db.Raw("select role_id FROM \"user_to_roles\"  WHERE (user_id = ?)\n", userID).Rows()
+	if result.Err() != nil {
+		return nil, result.Err()
+	}
+
+	var rolesID []int
+	for result.Next() {
+		var role string
+		err := result.Scan(&role)
+		if err != nil {
+			return nil, err
+		}
+		roleID, _ := strconv.Atoi(role)
+		rolesID = append(rolesID, roleID)
+	}
+
+	return rolesID, nil
 }
 
 func (ar *authorizationRepository) Login(u []*model.User) ([]*model.User, error) {

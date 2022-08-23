@@ -6,3 +6,11 @@ type Role struct {
 }
 
 func (Role) TableName() string { return "roles" }
+
+const (
+	RoleUserID = 1
+	RoleAdvertisementID = 2
+	RoleCommentID = 3
+	RoleUserToRoleID = 4
+	RoleAdminID = 5
+)
