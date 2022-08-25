@@ -11,7 +11,7 @@ type userToRoleInterfactor struct {
 
 type UserToRoleInterfactor interface {
 	Get(r []*model.UserRoleResponseData) ([]*model.UserRoleResponseData, error)
-	GetOne(r []*model.UserRoleResponseData, id string) ([]*model.UserRoleResponseData, error)
+	GetUserRoles(r []*model.UserRoleResponseData, userID string) ([]*model.UserRoleResponseData, error)
 	Create(r *model.UserRole) (*model.UserRole, error)
 	Update(r *model.UserRole, id string) error
 	Delete(r []*model.UserRole, id string) ([]*model.UserRole, error)
@@ -30,8 +30,8 @@ func (uri *userToRoleInterfactor) Get(ur []*model.UserRoleResponseData) ([]*mode
 	return ur, nil
 }
 
-func (uri *userToRoleInterfactor) GetOne(ur []*model.UserRoleResponseData, id string) ([]*model.UserRoleResponseData, error) {
-	ur, err := uri.UserToRoleRepository.FindOne(ur, id)
+func (uri *userToRoleInterfactor) GetUserRoles(ur []*model.UserRoleResponseData, userID string) ([]*model.UserRoleResponseData, error) {
+	ur, err := uri.UserToRoleRepository.FindUserRoles(ur, userID)
 	if err != nil {
 		return nil, err
 	}
