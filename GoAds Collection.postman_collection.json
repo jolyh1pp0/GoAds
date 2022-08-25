@@ -504,16 +504,65 @@
 				{
 					"name": "Get users to roles",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWUyNTg1ZWQtZTk3NC00NzZjLThhN2ItY2ZkNWMwNmM5ZjI0IiwidXNlcl9yb2xlcyI6WzIsNV0sImlhdCI6MTY2MTQ1MjY4MiwiZXhwIjoxNjYxNDUzNTgyfQ.RSmVcsH49f1R4M9qUUBp5svqJ0teHhC2Rda5l_I0hF8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user-to-role",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-to-role"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Get one user to role",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWUyNTg1ZWQtZTk3NC00NzZjLThhN2ItY2ZkNWMwNmM5ZjI0IiwidXNlcl9yb2xlcyI6WzIsNV0sImlhdCI6MTY2MTQ1MjY4MiwiZXhwIjoxNjYxNDUzNTgyfQ.RSmVcsH49f1R4M9qUUBp5svqJ0teHhC2Rda5l_I0hF8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user-to-role/?UserID=ae2585ed-e974-476c-8a7b-cfd5c06c9f24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-to-role",
+								""
+							],
+							"query": [
+								{
+									"key": "UserID",
+									"value": "ae2585ed-e974-476c-8a7b-cfd5c06c9f24"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -521,7 +570,18 @@
 					"name": "Create user to role",
 					"request": {
 						"method": "POST",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user-to-role",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-to-role"
+							]
+						}
 					},
 					"response": []
 				},
@@ -529,7 +589,19 @@
 					"name": "Update user to role",
 					"request": {
 						"method": "PUT",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user-to-role/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-to-role",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -537,7 +609,19 @@
 					"name": "Delete user to role",
 					"request": {
 						"method": "DELETE",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user-to-role/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-to-role",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}

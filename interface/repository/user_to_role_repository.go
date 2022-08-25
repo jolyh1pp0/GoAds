@@ -24,8 +24,8 @@ func (urr *userToRoleRepository) FindAll(ur []*model.UserRoleResponseData) ([]*m
 	return ur, nil
 }
 
-func (urr *userToRoleRepository) FindOne(ur []*model.UserRoleResponseData, id string) ([]*model.UserRoleResponseData, error) {
-	err := urr.db.Model(&ur).Select("*").Where("id = ?", id).Preload("User").Preload("Role").Find(&ur).Error
+func (urr *userToRoleRepository) FindUserRoles(ur []*model.UserRoleResponseData, userID string) ([]*model.UserRoleResponseData, error) {
+	err := urr.db.Model(&ur).Select("*").Where("user_id = ?", userID).Preload("User").Preload("Role").Find(&ur).Error
 	if err != nil {
 		return nil, err
 	}

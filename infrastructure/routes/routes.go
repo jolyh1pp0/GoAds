@@ -104,7 +104,7 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 	userToRoleGroup := e.Group("/user-to-role", Auth, Role(model.RoleUserToRoleID, model.RoleAdminID))
 	{
 		userToRoleGroup.GET("", func(context echo.Context) error { return c.UserToRole.GetUserToRoles(context) })
-		userToRoleGroup.GET("/:id", func(context echo.Context) error { return c.UserToRole.GetOneUserToRole(context) })
+		userToRoleGroup.GET("/", func(context echo.Context) error { return c.UserToRole.GetUserRoles(context) })
 		userToRoleGroup.PUT("/:id", func(context echo.Context) error { return c.UserToRole.UpdateUserToRole(context) })
 		userToRoleGroup.POST("", func(context echo.Context) error { return c.UserToRole.CreateUserToRole(context) })
 		userToRoleGroup.DELETE("/:id", func(context echo.Context) error { return c.UserToRole.DeleteUserToRole(context) })

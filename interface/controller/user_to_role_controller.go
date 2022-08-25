@@ -14,7 +14,7 @@ type userToRoleController struct {
 
 type UserToRoleController interface {
 	GetUserToRoles(c Context) error
-	GetOneUserToRole(c Context) error
+	GetUserRoles(c Context) error
 	CreateUserToRole(c Context) error
 	UpdateUserToRole(c Context) error
 	DeleteUserToRole(c Context) error
@@ -35,11 +35,10 @@ func (uc *userToRoleController) GetUserToRoles(c Context) error {
 	return c.JSONPretty(http.StatusOK, ur, "  ")
 }
 
-func (uc *userToRoleController) GetOneUserToRole(c Context) error {
+func (uc *userToRoleController) GetUserRoles(c Context) error {
 	var ur []*model.UserRoleResponseData
-	id := c.Param("id")
-
-	ur, err := uc.userToRoleInterfactor.GetOne(ur, id)
+	userID := c.QueryParam("UserID")
+	ur, err := uc.userToRoleInterfactor.GetUserRoles(ur, userID)
 	if err != nil {
 		return err
 	}
