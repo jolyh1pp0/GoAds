@@ -11,8 +11,10 @@ type authorizationInterfactor struct {
 
 type AuthorizationInterfactor interface {
 	Create(u *model.User) (*model.User, error)
+	CreateSession(s *model.Session) (*model.Session, error)
 	UserExists(email string) (string, string, error)
 	GetUserRoles(userID string) ([]int, error)
+	GetRefreshTokenUUIDFromTable(token string) (string, error)
 	Login(u []*model.User) ([]*model.User, error)
 }
 
@@ -29,6 +31,15 @@ func (ai *authorizationInterfactor) Create(u *model.User) (*model.User, error) {
 	return u, err
 }
 
+func (ai *authorizationInterfactor) CreateSession(s *model.Session) (*model.Session, error) {
+	s, err := ai.AuthorizationRepository.CreateSession(s)
+	if err != nil {
+		return nil, err
+	}
+
+	return s, err
+}
+
 func (ai *authorizationInterfactor) UserExists(email string) (string, string, error) {
 	password, userID, err := ai.AuthorizationRepository.UserExists(email)
 	if err != nil {
@@ -43,6 +54,14 @@ func (ai *authorizationInterfactor) GetUserRoles(userID string) ([]int, error) {
 		return nil, err
 	}
 	return userRoles, nil
+}
+
+func (ai *authorizationInterfactor) GetRefreshTokenUUIDFromTable(token string) (string, error) {
+	refreshTokenUUID, err := ai.AuthorizationRepository.GetRefreshTokenUUIDFromTable(token)
+	if err != nil {
+		return "", err
+	}
+	return refreshTokenUUID, nil
 }
 
 func (ai *authorizationInterfactor) Login(u []*model.User) ([]*model.User, error) {

@@ -11,3 +11,4 @@ server:
 
 jwt:
   key: example_key
+  refreshKey: example_refresh_key
