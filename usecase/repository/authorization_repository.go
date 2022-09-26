@@ -9,4 +9,6 @@ type AuthorizationRepository interface {
 	GetUserRoles(userID string) ([]int, error)
 	GetRefreshTokenUUIDFromTable(token string) (string, error)
 	Login(u []*model.User) ([]*model.User, error)
+	GetSession(userID string) (string, error)
+	UpdateSession(userID string, s *model.Session) error
 }

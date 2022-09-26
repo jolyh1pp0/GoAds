@@ -32,3 +32,5 @@ var ErrInvalidRefreshToken = echo.NewHTTPError(http.StatusInternalServerError, "
 var ErrEmptyJWTKey = errors.New("Empty key is not allowed.")
 
 var ErrForbidden = echo.NewHTTPError(http.StatusForbidden, "Status 403 Forbidden.")
+
+var ErrInvalidSession = echo.NewHTTPError(http.StatusInternalServerError, "Invalid Session.")

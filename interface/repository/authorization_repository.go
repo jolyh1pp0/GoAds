@@ -84,3 +84,22 @@ func (ar *authorizationRepository) GetRefreshTokenUUIDFromTable(token string) (s
 func (ar *authorizationRepository) Login(u []*model.User) ([]*model.User, error) {
 	return nil, nil
 }
+
+func (ar *authorizationRepository) GetSession(userID string) (string, error) {
+	session := model.Session{}
+	err := ar.db.Model(&session).Select("user_id").Where("user_id = ?", userID).Find(&session)
+	if err.Error != nil {
+		return "", err.Error
+	}
+
+	return session.UserID, nil
+}
+
+func (ar *authorizationRepository) UpdateSession(userID string, s *model.Session) error {
+	err := ar.db.Model(&s).Where("user_id = ?", userID).Update(s)
+	if err.Error != nil {
+		return err.Error
+	}
+
+	return nil
+}

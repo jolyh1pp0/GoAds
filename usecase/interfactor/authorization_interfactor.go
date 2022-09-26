@@ -16,6 +16,8 @@ type AuthorizationInterfactor interface {
 	GetUserRoles(userID string) ([]int, error)
 	GetRefreshTokenUUIDFromTable(token string) (string, error)
 	Login(u []*model.User) ([]*model.User, error)
+	GetSession(userID string) (string, error)
+	UpdateSession(userID string, s *model.Session) error
 }
 
 func NewAuthorizationInterfactor(r repository.AuthorizationRepository) AuthorizationInterfactor {
@@ -66,4 +68,22 @@ func (ai *authorizationInterfactor) GetRefreshTokenUUIDFromTable(token string) (
 
 func (ai *authorizationInterfactor) Login(u []*model.User) ([]*model.User, error) {
 	return nil, nil
+}
+
+func (ai *authorizationInterfactor) GetSession(userID string) (string, error) {
+	session, err := ai.AuthorizationRepository.GetSession(userID)
+	if err != nil {
+		return "", err
+	}
+
+	return session, nil
+}
+
+func (ai *authorizationInterfactor) UpdateSession(userID string, s *model.Session) error {
+	err := ai.AuthorizationRepository.UpdateSession(userID, s)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
