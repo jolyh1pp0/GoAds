@@ -22,6 +22,7 @@ type config struct {
 	}
 	JWT struct{
 		Key string
+		RefreshKey string
 	}
 }
 
@@ -43,8 +44,7 @@ func ReadConfig() {
 		os.Exit(1)
 	}
 
-	fmt.Println(C.JWT.Key)
-	if C.JWT.Key == "" {
+	if C.JWT.Key == "" || C.JWT.RefreshKey == ""{
 		log.Println(domain.ErrEmptyJWTKey)
 		os.Exit(1)
 	}

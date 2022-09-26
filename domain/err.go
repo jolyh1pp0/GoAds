@@ -27,7 +27,10 @@ var ErrEmailIsNotFound = echo.NewHTTPError(http.StatusInternalServerError, "Stat
 var ErrInsecurePassword = echo.NewHTTPError(http.StatusInternalServerError, "Status 500 Internal server error. Insecure password, try including more special characters, using lowercase letters, using uppercase letters or using a longer password")
 var ErrInvalidPassword = echo.NewHTTPError(http.StatusInternalServerError, "Status 500 Internal server error. Invalid password")
 
-var ErrInvalidAccessToken = echo.NewHTTPError(http.StatusInternalServerError, "Status 500 Internal server error. Invalid or expired access token")
-var ErrEmptyJWTKey = errors.New("Empty JWT key is not allowed.")
+var ErrInvalidAccessToken = echo.NewHTTPError(http.StatusInternalServerError, "Invalid or expired access token")
+var ErrInvalidRefreshToken = echo.NewHTTPError(http.StatusInternalServerError, "Invalid or expired refresh token")
+var ErrEmptyJWTKey = errors.New("Empty key is not allowed.")
 
 var ErrForbidden = echo.NewHTTPError(http.StatusForbidden, "Status 403 Forbidden.")
+
+var ErrInvalidSession = echo.NewHTTPError(http.StatusInternalServerError, "Invalid Session.")

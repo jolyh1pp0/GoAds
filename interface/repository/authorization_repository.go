@@ -30,6 +30,16 @@ func (ar *authorizationRepository) Create(u *model.User) (*model.User, error) {
 	return u, nil
 }
 
+func (ar *authorizationRepository) CreateSession(s *model.Session) (*model.Session, error) {
+	err := ar.db.Model(&s).Create(s).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return s, nil
+}
+
 func (ar *authorizationRepository) UserExists(email string) (string, string, error) {
 	user := model.User{}
 	err := ar.db.Model(&user).Select("*").Where("email = ?", email).Find(&user).Error
@@ -61,6 +71,35 @@ func (ar *authorizationRepository) GetUserRoles(userID string) ([]int, error) {
 	return rolesID, nil
 }
 
+func (ar *authorizationRepository) GetRefreshTokenUUIDFromTable(token string) (string, error) {
+	var s model.Session
+	err := ar.db.Model(&s).Select("refresh_token_uuid").Where("refresh_token_uuid = ?", token).Find(&s)
+	if err.Error != nil {
+		return "", err.Error
+	}
+
+	return s.RefreshTokenUUID, nil
+}
+
 func (ar *authorizationRepository) Login(u []*model.User) ([]*model.User, error) {
 	return nil, nil
+}
+
+func (ar *authorizationRepository) GetSession(userID string) (string, error) {
+	session := model.Session{}
+	err := ar.db.Model(&session).Select("user_id").Where("user_id = ?", userID).Find(&session)
+	if err.Error != nil {
+		return "", err.Error
+	}
+
+	return session.UserID, nil
+}
+
+func (ar *authorizationRepository) UpdateSession(userID string, s *model.Session) error {
+	err := ar.db.Model(&s).Where("user_id = ?", userID).Update(s)
+	if err.Error != nil {
+		return err.Error
+	}
+
+	return nil
 }
