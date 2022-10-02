@@ -2,9 +2,7 @@ CREATE TABLE sessions (
     id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
 
     user_id UUID NOT NULL,
-    access_token VARCHAR NOT NULL,
     access_token_uuid UUID NOT NULL,
-    refresh_token VARCHAR NOT NULL,
     refresh_token_uuid UUID NOT NULL,
 
     refresh_token_expires_at TIMESTAMPTZ NOT NULL,

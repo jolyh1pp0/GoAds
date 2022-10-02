@@ -7,8 +7,9 @@ type AuthorizationRepository interface {
 	CreateSession(s *model.Session) (*model.Session, error)
 	UserExists(email string) (string, string, error)
 	GetUserRoles(userID string) ([]int, error)
-	GetRefreshTokenUUIDFromTable(token string) (string, error)
+	GetRefreshTokenUUIDFromTable(uuid string) (string, error)
 	Login(u []*model.User) ([]*model.User, error)
-	GetSession(userID string) (string, error)
-	UpdateSession(userID string, s *model.Session) error
+	GetSession(userID string) (int, error)
+	GetSessionUUID(userID string) (string, error)
+	UpdateSession(sessionUUID string, s *model.Session) error
 }

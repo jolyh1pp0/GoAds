@@ -16,8 +16,9 @@ type AuthorizationInterfactor interface {
 	GetUserRoles(userID string) ([]int, error)
 	GetRefreshTokenUUIDFromTable(token string) (string, error)
 	Login(u []*model.User) ([]*model.User, error)
-	GetSession(userID string) (string, error)
-	UpdateSession(userID string, s *model.Session) error
+	GetSession(userID string) (int, error)
+	GetSessionUUID(userID string) (string, error)
+	UpdateSession(sessionUUID string, s *model.Session) error
 }
 
 func NewAuthorizationInterfactor(r repository.AuthorizationRepository) AuthorizationInterfactor {
@@ -58,8 +59,8 @@ func (ai *authorizationInterfactor) GetUserRoles(userID string) ([]int, error) {
 	return userRoles, nil
 }
 
-func (ai *authorizationInterfactor) GetRefreshTokenUUIDFromTable(token string) (string, error) {
-	refreshTokenUUID, err := ai.AuthorizationRepository.GetRefreshTokenUUIDFromTable(token)
+func (ai *authorizationInterfactor) GetRefreshTokenUUIDFromTable(uuid string) (string, error) {
+	refreshTokenUUID, err := ai.AuthorizationRepository.GetRefreshTokenUUIDFromTable(uuid)
 	if err != nil {
 		return "", err
 	}
@@ -70,17 +71,26 @@ func (ai *authorizationInterfactor) Login(u []*model.User) ([]*model.User, error
 	return nil, nil
 }
 
-func (ai *authorizationInterfactor) GetSession(userID string) (string, error) {
+func (ai *authorizationInterfactor) GetSession(userID string) (int, error) {
 	session, err := ai.AuthorizationRepository.GetSession(userID)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 
 	return session, nil
 }
 
-func (ai *authorizationInterfactor) UpdateSession(userID string, s *model.Session) error {
-	err := ai.AuthorizationRepository.UpdateSession(userID, s)
+func (ai *authorizationInterfactor) GetSessionUUID(userID string) (string, error) {
+	uuid, err := ai.AuthorizationRepository.GetSessionUUID(userID)
+	if err != nil {
+		return "", err
+	}
+
+	return uuid, nil
+}
+
+func (ai *authorizationInterfactor) UpdateSession(sessionUUID string, s *model.Session) error {
+	err := ai.AuthorizationRepository.UpdateSession(sessionUUID, s)
 	if err != nil {
 		return err
 	}

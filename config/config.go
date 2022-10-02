@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"os"
+	"time"
 )
 
 type config struct {
@@ -21,8 +22,10 @@ type config struct {
 		Address string
 	}
 	JWT struct{
-		Key string
-		RefreshKey string
+		Key                string
+		RefreshKey         string
+		AccessTokenLifespan  time.Duration
+		RefreshTokenLifespan time.Duration
 	}
 }
 
