@@ -1,5 +1,6 @@
 package controller
 
+import "C"
 import (
 	"GoAds/config"
 	"GoAds/domain"
@@ -26,6 +27,7 @@ type authorizationController struct {
 type tokenClaims struct {
 	UserID      string `json:"user_id"`
 	UserRoles   []int  `json:"user_roles"`
+	SessionUUID string `json:"session_uuid"`
 	AccessUUID  string `json:"access_uuid"`
 	RefreshUUID string `json:"refresh_uuid"`
 }
@@ -34,9 +36,9 @@ type AuthorizationController interface {
 	CreateUser(c Context) error
 	Login(c Context) error
 	Refresh(c Context) error
-	createSession(userID string, token string, refreshToken string) error
+	createSession(userID, accessTokenUUID, refreshTokenUUID string) (string, error)
 	checkSession(userID string) (bool, error)
-	updateSession(userID, token string, refreshToken string) error
+	updateSession(currentRefreshTokenUUID, token, refreshToken string) error
 }
 
 func NewAuthorizationController(ai interfactor.AuthorizationInterfactor) AuthorizationController {
@@ -78,24 +80,22 @@ func (ac *authorizationController) CreateUser(c Context) error {
 	return c.JSONPretty(http.StatusCreated, "Status 201. User " + u.ID + " created", "  ")
 }
 
-func GenerateJWT(userID string, userRoles []int) (string, string, error) {
-	accessUUID := uuid.NewV4().String()
-	refreshUUID := uuid.NewV4().String()
-
+func GenerateJWT(userID string, userRoles []int, sessionUUID, accessUUID, refreshUUID string) (string, string, error) {
 	claims := tokenClaims{
 		UserID:      userID,
 		UserRoles:   userRoles,
+		SessionUUID: sessionUUID,
 		AccessUUID:  accessUUID,
 		RefreshUUID: refreshUUID,
 	}
 
-	token, err := jwt.Sign(jwt.HS256, key, claims, jwt.MaxAge(30*time.Minute))
+	token, err := jwt.Sign(jwt.HS256, key, claims, jwt.MaxAge(config.C.JWT.AccessTokenLifespan * time.Minute))
 	if err != nil {
 		log.Println(err)
 		return "", "", domain.ErrInvalidAccessToken
 	}
 
-	refreshToken, err := jwt.Sign(jwt.HS256, refreshKey, claims, jwt.MaxAge(time.Hour*24*2))
+	refreshToken, err := jwt.Sign(jwt.HS256, refreshKey, claims, jwt.MaxAge(config.C.JWT.RefreshTokenLifespan * time.Minute))
 	if err != nil {
 		log.Println(err)
 		return "", "", domain.ErrInvalidAccessToken
@@ -104,38 +104,21 @@ func GenerateJWT(userID string, userRoles []int) (string, string, error) {
 	return string(token), string(refreshToken), nil
 }
 
-func ParseToken(accessToken string) (string, []int, error) {
+func ParseToken(accessToken string) (*tokenClaims, error) {
 	verifiedToken, err := jwt.Verify(jwt.HS256, key, []byte(accessToken))
 	if err != nil {
 		log.Println(err)
-		return "", nil, domain.ErrInvalidAccessToken
+		return nil, domain.ErrInvalidAccessToken
 	}
 
 	claims := &tokenClaims{}
 	err = verifiedToken.Claims(claims)
 	if err != nil {
 		log.Println(err)
-		return "", nil, domain.ErrInvalidAccessToken
+		return nil, domain.ErrInvalidAccessToken
 	}
 
-	return claims.UserID, claims.UserRoles, nil
-}
-
-func getUUIDs(accessToken string) (string, string, error) {
-	verifiedToken, err := jwt.Verify(jwt.HS256, key, []byte(accessToken))
-	if err != nil {
-		log.Println(err)
-		return "", "", domain.ErrInvalidAccessToken
-	}
-
-	claims := &tokenClaims{}
-	err = verifiedToken.Claims(claims)
-	if err != nil {
-		log.Println(err)
-		return "", "", domain.ErrInvalidAccessToken
-	}
-
-	return claims.AccessUUID, claims.RefreshUUID, nil
+	return claims, nil
 }
 
 func (ac *authorizationController) Login(c Context) error {
@@ -164,7 +147,36 @@ func (ac *authorizationController) Login(c Context) error {
 		return domain.ErrEmailIsNotFound
 	}
 
-	token, refreshToken, err := GenerateJWT(userID, userRoles)
+	accessUUID := uuid.NewV4().String()
+	refreshUUID := uuid.NewV4().String()
+
+	exists, err := ac.checkSession(userID)
+	if err != nil {
+		log.Print(err)
+		return domain.ErrInvalidSession
+	}
+
+	var sessionUUID string
+	if exists == false {
+		sessionUUID, err = ac.createSession(userID, accessUUID, refreshUUID)
+		if err != nil {
+			log.Print(err)
+			return domain.ErrInvalidSession
+		}
+	} else if exists == true {
+		sessionUUID, err = ac.authorizationInterfactor.GetSessionUUID(userID)
+		if err != nil {
+			log.Print(err)
+			return domain.ErrInvalidSession
+		}
+		err = ac.updateSession(sessionUUID, accessUUID, refreshUUID)
+		if err != nil {
+			log.Print(err)
+			return domain.ErrInvalidSession
+		}
+	}
+
+	token, refreshToken, err := GenerateJWT(userID, userRoles, sessionUUID, accessUUID, refreshUUID)
 	if err != nil {
 		log.Print(err)
 		return domain.ErrInvalidAccessToken
@@ -175,46 +187,24 @@ func (ac *authorizationController) Login(c Context) error {
 		"refresh_token": refreshToken,
 	}
 
-	exists, err := ac.checkSession(userID)
-	if err != nil {
-		log.Print(err)
-		return domain.ErrInvalidSession
-	}
-
-	if exists == false {
-		err = ac.createSession(userID, token, refreshToken)
-		if err != nil {
-			log.Print(err)
-			return domain.ErrInvalidSession
-		}
-	} else if exists == true {
-		err = ac.updateSession(userID, token, refreshToken)
-		if err != nil {
-			log.Print(err)
-			return domain.ErrInvalidSession
-		}
-	}
-
 	return c.JSONPretty(http.StatusOK, tokens, "")
 }
 
-func(ac *authorizationController) createSession(userID, accessToken, refreshToken string) error {
+func(ac *authorizationController) createSession(userID, accessTokenUUID, refreshTokenUUID string) (string, error) {
 	var session model.Session
 	session.UserID = userID
-	session.AccessToken = accessToken
-	session.RefreshToken = refreshToken
-	session.AccessTokenUUID, session.RefreshTokenUUID, _ = getUUIDs(accessToken)
+	session.AccessTokenUUID, session.RefreshTokenUUID = accessTokenUUID, refreshTokenUUID
 
 	now := time.Now()
 	session.RefreshTokenExpiresAt = now.Add(time.Hour*24*2)
 	session.ExpiresAt = now.Add(time.Hour*24*30)
 
-	_, err := ac.authorizationInterfactor.CreateSession(&session)
+	sessionUU, err := ac.authorizationInterfactor.CreateSession(&session)
 	if err != nil {
 		log.Print(err)
 	}
 
-	return nil
+	return sessionUU.ID, nil
 }
 
 func(ac *authorizationController) checkSession(userID string) (bool, error) {
@@ -223,23 +213,22 @@ func(ac *authorizationController) checkSession(userID string) (bool, error) {
 		log.Print(err)
 		return false, domain.ErrInvalidSession
 	}
-	if session == "" {
+	if session == 0 {
 		return false, nil
 	} else {
 		return true, nil
 	}
 }
 
-func(ac *authorizationController) updateSession(userID, accessToken, refreshToken string) error {
+func(ac *authorizationController) updateSession(sessionUUID, accessUUID, refreshUUID string) error {
 	var session model.Session
-	session.AccessToken = accessToken
-	session.RefreshToken = refreshToken
-	session.AccessTokenUUID, session.RefreshTokenUUID, _ = getUUIDs(accessToken)
+
+	session.AccessTokenUUID, session.RefreshTokenUUID = accessUUID, refreshUUID
 	now := time.Now()
 	session.RefreshTokenExpiresAt = now.Add(time.Hour*24*2)
 	session.ExpiresAt = now.Add(time.Hour*24*30)
 
-	err := ac.authorizationInterfactor.UpdateSession(userID, &session)
+	err := ac.authorizationInterfactor.UpdateSession(sessionUUID, &session)
 	if err != nil {
 		log.Print(err)
 		return domain.ErrInvalidSession
@@ -251,37 +240,42 @@ func(ac *authorizationController) updateSession(userID, accessToken, refreshToke
 func (ac *authorizationController) Refresh(c Context) error {
 	var session model.Session
 
-	err := c.Bind(&session)
+	type Token struct {
+		RefreshToken string `json:"refresh_token"`
+	}
+
+	var token Token
+	err := c.Bind(&token)
 	if err != nil {
 		log.Print(err)
 		return domain.ErrInvalidRefreshToken
 	}
 
-	_, session.RefreshTokenUUID, err = getUUIDs(session.RefreshToken)
+	claims, err := ParseToken(token.RefreshToken)
 	if err != nil {
 		log.Println(err)
 		return domain.ErrInvalidRefreshToken
 	}
 
-	userID, userRoles, err := ParseToken(session.RefreshToken)
-	if err != nil {
-		log.Print(err)
-		return domain.ErrInvalidRefreshToken
-	}
+	session.ID, session.RefreshTokenUUID, session.AccessTokenUUID = claims.SessionUUID, claims.RefreshUUID, claims.AccessUUID
+	userID, userRoles := claims.UserID, claims.UserRoles
 
 	// TODO: check session expiration
 
-	refreshTokenUUID, err := ac.authorizationInterfactor.GetRefreshTokenUUIDFromTable(session.RefreshTokenUUID)
+	refreshTokenUUIDFromTable, err := ac.authorizationInterfactor.GetRefreshTokenUUIDFromTable(claims.SessionUUID)
 	if err != nil {
 		log.Print(err)
 	}
 
-	if refreshTokenUUID != session.RefreshTokenUUID {
+	if refreshTokenUUIDFromTable != session.RefreshTokenUUID {
 		log.Println(err)
 		return domain.ErrInvalidRefreshToken
 	}
 
-	accessToken, refreshToken, err := GenerateJWT(userID, userRoles)
+	accessUUID := uuid.NewV4().String()
+	refreshUUID := uuid.NewV4().String()
+
+	accessToken, refreshToken, err := GenerateJWT(userID, userRoles, session.ID , accessUUID, refreshUUID)
 	if err != nil {
 		log.Print(err)
 		return domain.ErrInvalidAccessToken
@@ -292,10 +286,10 @@ func (ac *authorizationController) Refresh(c Context) error {
 		"refresh_token": refreshToken,
 	}
 
-	err = ac.updateSession(userID, accessToken, refreshToken)
+	err = ac.updateSession(session.ID, accessUUID, refreshUUID)
 	if err != nil {
 		log.Print(err)
-		return domain.ErrInvalidAccessToken
+		return domain.ErrInvalidSession
 	}
 
 	return c.JSONPretty(http.StatusOK, tokens, "")

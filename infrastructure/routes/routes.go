@@ -23,7 +23,10 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 			return domain.ErrInvalidAccessToken
 		}
 
-		userID, userRoles, err := controller.ParseToken(headerParts[1])
+		//userID, userRoles, err := controller.ParseToken(headerParts[1])
+		claims, err := controller.ParseToken(headerParts[1])
+		userID, userRoles := claims.UserID, claims.UserRoles
+
 		if err != nil {
 			log.Println(err)
 			return domain.ErrInvalidAccessToken

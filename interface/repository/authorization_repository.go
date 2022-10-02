@@ -52,7 +52,7 @@ func (ar *authorizationRepository) UserExists(email string) (string, string, err
 }
 
 func (ar *authorizationRepository) GetUserRoles(userID string) ([]int, error) {
-	result, _ := ar.db.Raw("select role_id FROM \"user_to_roles\"  WHERE (user_id = ?)\n", userID).Rows()
+	result, _ := ar.db.Raw("SELECT role_id FROM \"user_to_roles\"  WHERE (user_id = ?)\n", userID).Rows()
 	if result.Err() != nil {
 		return nil, result.Err()
 	}
@@ -71,9 +71,9 @@ func (ar *authorizationRepository) GetUserRoles(userID string) ([]int, error) {
 	return rolesID, nil
 }
 
-func (ar *authorizationRepository) GetRefreshTokenUUIDFromTable(token string) (string, error) {
+func (ar *authorizationRepository) GetRefreshTokenUUIDFromTable(uuid string) (string, error) {
 	var s model.Session
-	err := ar.db.Model(&s).Select("refresh_token_uuid").Where("refresh_token_uuid = ?", token).Find(&s)
+	err := ar.db.Model(&s).Select("refresh_token_uuid").Where("id = ?", uuid).Find(&s)
 	if err.Error != nil {
 		return "", err.Error
 	}
@@ -85,18 +85,32 @@ func (ar *authorizationRepository) Login(u []*model.User) ([]*model.User, error)
 	return nil, nil
 }
 
-func (ar *authorizationRepository) GetSession(userID string) (string, error) {
-	session := model.Session{}
-	err := ar.db.Model(&session).Select("user_id").Where("user_id = ?", userID).Find(&session)
+func (ar *authorizationRepository) GetSession(userID string) (int, error) {
+	result, _ := ar.db.Raw("SELECT user_id FROM \"sessions\"  WHERE (user_id = ?)\n", userID).Rows()
+	if result.Err() != nil {
+		return 0, result.Err()
+	}
+
+	var counter int
+	for result.Next() {
+		counter++
+	}
+
+	return counter, nil
+}
+
+func (ar *authorizationRepository) GetSessionUUID(userID string) (string, error) {
+	var s model.Session
+	err := ar.db.Model(&s).Where("user_id = ?", userID).Find(&s)
 	if err.Error != nil {
 		return "", err.Error
 	}
 
-	return session.UserID, nil
+	return s.ID, nil
 }
 
-func (ar *authorizationRepository) UpdateSession(userID string, s *model.Session) error {
-	err := ar.db.Model(&s).Where("user_id = ?", userID).Update(s)
+func (ar *authorizationRepository) UpdateSession(sessionUUID string, s *model.Session) error {
+	err := ar.db.Model(&s).Where("id = ?", sessionUUID).Update(s)
 	if err.Error != nil {
 		return err.Error
 	}
