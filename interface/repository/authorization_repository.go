@@ -6,6 +6,7 @@ import (
 	"GoAds/usecase/repository"
 	"github.com/jinzhu/gorm"
 	"strconv"
+	"time"
 )
 
 type authorizationRepository struct {
@@ -81,24 +82,6 @@ func (ar *authorizationRepository) GetRefreshTokenUUIDFromTable(uuid string) (st
 	return s.RefreshTokenUUID, nil
 }
 
-func (ar *authorizationRepository) Login(u []*model.User) ([]*model.User, error) {
-	return nil, nil
-}
-
-func (ar *authorizationRepository) GetSession(userID string) (int, error) {
-	result, _ := ar.db.Raw("SELECT user_id FROM \"sessions\"  WHERE (user_id = ?)\n", userID).Rows()
-	if result.Err() != nil {
-		return 0, result.Err()
-	}
-
-	var counter int
-	for result.Next() {
-		counter++
-	}
-
-	return counter, nil
-}
-
 func (ar *authorizationRepository) GetSessionUUID(userID string) (string, error) {
 	var s model.Session
 	err := ar.db.Model(&s).Where("user_id = ?", userID).Find(&s)
@@ -109,8 +92,29 @@ func (ar *authorizationRepository) GetSessionUUID(userID string) (string, error)
 	return s.ID, nil
 }
 
+func (ar *authorizationRepository) GetSessionExpiration(sessionUUID string) (time.Time, error) {
+	var s model.Session
+	err := ar.db.Model(&s).Where("id = ?", sessionUUID).Find(&s)
+	if err.Error != nil {
+		return time.Time{}, err.Error
+	}
+
+	return s.ExpiresAt, nil
+}
+
 func (ar *authorizationRepository) UpdateSession(sessionUUID string, s *model.Session) error {
 	err := ar.db.Model(&s).Where("id = ?", sessionUUID).Update(s)
+	if err.Error != nil {
+		return err.Error
+	}
+
+	return nil
+}
+
+func (ar *authorizationRepository) Logout(sessionUUID string) error {
+	var s model.Session
+
+	err := ar.db.Model(&s).Where("id = ?", sessionUUID).Delete(s)
 	if err.Error != nil {
 		return err.Error
 	}

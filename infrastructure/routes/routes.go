@@ -23,7 +23,6 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 			return domain.ErrInvalidAccessToken
 		}
 
-		//userID, userRoles, err := controller.ParseToken(headerParts[1])
 		claims, err := controller.ParseToken(headerParts[1])
 		userID, userRoles := claims.UserID, claims.UserRoles
 
@@ -116,6 +115,7 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 	e.POST("/register", func(context echo.Context) error { return c.Authorization.CreateUser(context) })
 	e.GET("/login", func(context echo.Context) error { return c.Authorization.Login(context) })
 	e.GET("/refresh", func(context echo.Context) error { return c.Authorization.Refresh(context) })
+	e.GET("/logout", func(context echo.Context) error { return c.Authorization.Logout(context) })
 
 	return e
 }
