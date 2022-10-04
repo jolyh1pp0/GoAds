@@ -7,11 +7,119 @@
 	},
 	"item": [
 		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"admin@gmail.com\",\r\n    \"Password\": \"SuPeRaDmIn1234567890//\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwidXNlcl9yb2xlcyI6WzVdLCJzZXNzaW9uX3V1aWQiOiIwOGJkOTI0OC0zZWNkLTRmNWItYmFlYS1mOWJlY2M4OTg1ZjUiLCJhY2Nlc3NfdXVpZCI6ImNiMDZkYTM0LWQ1MjEtNDYwMS04NTg2LWU1YzYxMTEzYjYwYiIsInJlZnJlc2hfdXVpZCI6IjI1ZWNmNmMzLWUwYWYtNGMxZS1hMmZmLTM2ZTFjM2IwYzk4ZSIsImlhdCI6MTY2NDkyMDgxNSwiZXhwIjoxNjY1MDkzNjE1fQ.mLMxoWC2WDk05ntTtlNeQMeieod8PsJqmeVxEnU_lXw\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwidXNlcl9yb2xlcyI6WzVdLCJzZXNzaW9uX3V1aWQiOiJmMjdkZTU5ZS1kNDVkLTRjZjItYjgxNy1lNmMwMDVjNzEzNWMiLCJhY2Nlc3NfdXVpZCI6IjJmZmQ2NDA5LTE3NWUtNDlmZS1hMzliLTczZGI4YTljMjJhMiIsInJlZnJlc2hfdXVpZCI6IjgxNDJiNDVmLTA3MzctNDliMi1hZDU4LTZmODExNjU1ZTNhYSIsImlhdCI6MTY2NDkxOTg3NCwiZXhwIjoxNjY1MDkyNjc0fQ.OD1HCue3dyQuJvNBIXj7vXUkdpVnXwt8IIMxUwqjB-A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Advertisements",
 			"item": [
 				{
 					"name": "Get advertisements",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMWJjNzIyNzAtZmE3Ny00OGNhLWE5MDYtYjA2N2E5OTQ2ODJmIiwidXNlcl9yb2xlcyI6bnVsbCwic2Vzc2lvbl91dWlkIjoiN2MwZTI0NWQtYWU2Yy00YmJmLWI3YmEtOWQ4ZmJiNjVkNjZmIiwiYWNjZXNzX3V1aWQiOiIwYjk2NjE1Ni1mNDlmLTQxNTctYjVjMS1mYmFkNzU2Y2ViOTgiLCJyZWZyZXNoX3V1aWQiOiI0NTE5NjMwNy05YWVkLTQ5MTEtOTAyZC03NjQxNDVkMTNhMWUiLCJpYXQiOjE2NjQ3NDk2NDcsImV4cCI6MTY2NDc0OTcwN30.HdufK3tsvtorKGjHeiJJjmdOmPrDkyDzB_h6aC0AGSw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -53,6 +161,16 @@
 				{
 					"name": "Get one advertisement",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwidXNlcl9yb2xlcyI6WzMsMV0sImlhdCI6MTY2MTI2MDUxOSwiZXhwIjoxNjYxMjYxNDE5fQ.ER804LpxiDpIrA7fVJW1UfCZQGCmZtee2H6FLJgFeQY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -73,11 +191,21 @@
 				{
 					"name": "Create advertisemet",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwNDgyMjU0LCJleHAiOjE2NjA0ODMxNTR9.iqF4AoQy3N9uRq3aQ3GmLY1FVkHWwit3DG1EsMxSKyw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": \"2ea0790d-118a-4afe-b139-49396216877e\",\r\n    \"Title\": \"Mercedes S63 AMG Coupe S1232sы2s\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
+							"raw": "{\r\n    \"Title\": \"Merced1esы S63 AMsG Co2u1232pe 12e\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,11 +229,21 @@
 				{
 					"name": "Update advertisement",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwNDgyMjU0LCJleHAiOjE2NjA0ODMxNTR9.iqF4AoQy3N9uRq3aQ3GmLY1FVkHWwit3DG1EsMxSKyw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Title\": \"M\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
+							"raw": "{\r\n    \"Title\": \"Mы1ws1\",\r\n    \"Description\": \"Отличное состояние, максимальная комплектация.\",\r\n    \"Price\": 2827165,\r\n    \"Photo_1\": \"https://cdn4.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377334hd.webp\",\r\n    \"Photo_2\": \"https://cdn3.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451377378hd.webp\",\r\n    \"Photo_3\": \"https://cdn0.riastatic.com/photosnew/auto/photo/mercedes-benz_s-63-amg__451378785hd.webp\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,7 +251,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/advertisements/77",
+							"raw": "http://localhost:8080/advertisements/40",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -121,7 +259,7 @@
 							"port": "8080",
 							"path": [
 								"advertisements",
-								"77"
+								"40"
 							]
 						}
 					},
@@ -130,10 +268,20 @@
 				{
 					"name": "Delete advertisement",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwNDgyMjU0LCJleHAiOjE2NjA0ODMxNTR9.iqF4AoQy3N9uRq3aQ3GmLY1FVkHWwit3DG1EsMxSKyw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/advertisements/77",
+							"raw": "http://localhost:8080/advertisements/40",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -141,7 +289,7 @@
 							"port": "8080",
 							"path": [
 								"advertisements",
-								"77"
+								"40"
 							]
 						}
 					},
@@ -155,6 +303,16 @@
 				{
 					"name": "Get users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMWJjNzIyNzAtZmE3Ny00OGNhLWE5MDYtYjA2N2E5OTQ2ODJmIiwidXNlcl9yb2xlcyI6bnVsbCwic2Vzc2lvbl91dWlkIjoiN2MwZTI0NWQtYWU2Yy00YmJmLWI3YmEtOWQ4ZmJiNjVkNjZmIiwiYWNjZXNzX3V1aWQiOiI0NDM3NDRkYy02NmI1LTQyMWQtOTNlMC0yYzMwMjRjOTQ4NzIiLCJyZWZyZXNoX3V1aWQiOiJiMjQ1Yzc2OS01MzU4LTRjNzktYjRjNy0wYTRmOWI2YWEzOGQiLH0.8JGrMtJCLerYivIGNcrxW5L7iWZf2cQ-7Y1UZdGHr1g",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -174,10 +332,20 @@
 				{
 					"name": "Get one user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwidXNlcl9yb2xlcyI6WzVdLCJzZXNzaW9uX3V1aWQiOiIxMDE5YjRkZi1mYzY0LTRmOGEtOTk4Ni1mNTBlZjAyMDY3NzEiLCJhY2Nlc3NfdXVpZCI6IjI5NmNjZGJmLWUyYzctNDZjYS04Njg1LTRiNzg2NzM1OTBhOCIsInJlZnJlc2hfdXVpZCI6ImQxMTU0N2IxLWRiMWQtNGQ1MS04Yjk5LTlhYjk1ZjZjYzUwOCIsImlhdCI6MTY2NDc0OTY4MCwiZXhwIjoxNjY0NzQ5NzQwfQ.v-YEGLPU-FtgdZI0eMvXDu-KThZirXuWd-J9pmeuzcM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users/1d637b34-787d-4f7f-8168-22a9ac9d1171",
+							"raw": "http://localhost:8080/users/2ea0790d-118a-4afe-b139-49396216877e",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -185,38 +353,7 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"1d637b34-787d-4f7f-8168-22a9ac9d1171"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"Email\": \"admin@gmail.com\",\r\n    \"Password\": \"SuPeRaDmIn1234567890//\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"login"
+								"2ea0790d-118a-4afe-b139-49396216877e"
 							]
 						}
 					},
@@ -229,7 +366,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Email\": \"anonymosuc11s22ss1s1sss22@gmail.com\",\r\n    \"Password\": \"anonymous\",\r\n    \"first_name\": \"Christopher\",\r\n    \"last_name\": \"Poole\",\r\n    \"phone\": \"+166s66s265c2ss6s32616s6\",\r\n}",
+							"raw": "{\r\n    \"Email\": \"ad22mi11n@gmail.com\",\r\n    \"Password\": \"SuPeRaDmIn1234567890//\",\r\n    \"first_name\": \"Christopher\",\r\n    \"last_name\": \"Poole\",\r\n    \"phone\": \"+1201\",\r\n    \"verified_type\": \"email\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -253,6 +390,16 @@
 				{
 					"name": "Update user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwMjg4NTY3LCJleHAiOjE2NjAyODk0Njd9.GTc_5QqswV7fr7w62XJrpNOHlvrd1Zm6PXBl7dZmlmk",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -282,10 +429,20 @@
 				{
 					"name": "Delete user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwMjg4NTY3LCJleHAiOjE2NjAyODk0Njd9.GTc_5QqswV7fr7w62XJrpNOHlvrd1Zm6PXBl7dZmlmk",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users/3380433e-1429-4617-a348-d6d090e33c01",
+							"raw": "http://localhost:8080/users/b3e1522c-70e7-460d-8398-7aaadbd5f3eb",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -293,7 +450,7 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"3380433e-1429-4617-a348-d6d090e33c01"
+								"b3e1522c-70e7-460d-8398-7aaadbd5f3eb"
 							]
 						}
 					},
@@ -307,6 +464,16 @@
 				{
 					"name": "Get comments",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwidXNlcl9yb2xlcyI6WzMsMV0sImlhdCI6MTY2MTI2MDY3NCwiZXhwIjoxNjYxMjYxNTc0fQ.36LY64jXOR08kqJZg0-GumMM4hI75feuO5mY0fWQldw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -326,10 +493,20 @@
 				{
 					"name": "Get one comment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwNDgyODIzLCJleHAiOjE2NjA0ODM3MjN9.VwqV3k3byz4LauaI0FAc0PpNRYLz1d6fHrrpaPelOkM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/comments/14",
+							"raw": "http://localhost:8080/comments/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -337,7 +514,7 @@
 							"port": "8080",
 							"path": [
 								"comments",
-								"14"
+								"2"
 							]
 						}
 					},
@@ -346,11 +523,21 @@
 				{
 					"name": "Create comment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwNDgzNzY0LCJleHAiOjE2NjA0ODQ2NjR9.6nh1b_yYm7GMK65kUX18dF0y0q6iI8tO4SpuiBCFj5Y",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"advertisement_id\": 75,\r\n    \"Content\": \"Some text\",\r\n    \"user_id\": \"6bd4bdf7-8b65-419d-b4d9-b95e968911ed\"\r\n}",
+							"raw": "{\r\n    \"advertisement_id\": 2,\r\n    \"Content\": \"Some text\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -374,6 +561,16 @@
 				{
 					"name": "Update comment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwNDgzNzY0LCJleHAiOjE2NjA0ODQ2NjR9.6nh1b_yYm7GMK65kUX18dF0y0q6iI8tO4SpuiBCFj5Y",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -386,7 +583,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/comments/14",
+							"raw": "http://localhost:8080/comments/18",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -394,7 +591,7 @@
 							"port": "8080",
 							"path": [
 								"comments",
-								"14"
+								"18"
 							]
 						}
 					},
@@ -403,10 +600,20 @@
 				{
 					"name": "Delete comment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0YjRmYTMtZTQ2Ny00ZjBlLWI5OGItNmIxNmIyYTc4MThiIiwiaWF0IjoxNjYwNDgzNzY0LCJleHAiOjE2NjA0ODQ2NjR9.6nh1b_yYm7GMK65kUX18dF0y0q6iI8tO4SpuiBCFj5Y",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/comments/23",
+							"raw": "http://localhost:8080/comments/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -414,7 +621,7 @@
 							"port": "8080",
 							"path": [
 								"comments",
-								"23"
+								"1"
 							]
 						}
 					},

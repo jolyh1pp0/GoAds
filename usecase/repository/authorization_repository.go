@@ -1,6 +1,9 @@
 package repository
 
-import "GoAds/domain/model"
+import (
+	"GoAds/domain/model"
+	"time"
+)
 
 type AuthorizationRepository interface {
 	Create(u *model.User) (*model.User, error)
@@ -8,8 +11,8 @@ type AuthorizationRepository interface {
 	UserExists(email string) (string, string, error)
 	GetUserRoles(userID string) ([]int, error)
 	GetRefreshTokenUUIDFromTable(uuid string) (string, error)
-	Login(u []*model.User) ([]*model.User, error)
-	GetSession(userID string) (int, error)
 	GetSessionUUID(userID string) (string, error)
+	GetSessionExpiration(sessionUUID string) (time.Time, error)
 	UpdateSession(sessionUUID string, s *model.Session) error
+	Logout(sessionUUID string) error
 }

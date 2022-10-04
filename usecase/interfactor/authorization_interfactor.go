@@ -3,6 +3,7 @@ package interfactor
 import (
 	"GoAds/domain/model"
 	"GoAds/usecase/repository"
+	"time"
 )
 
 type authorizationInterfactor struct {
@@ -15,8 +16,8 @@ type AuthorizationInterfactor interface {
 	UserExists(email string) (string, string, error)
 	GetUserRoles(userID string) ([]int, error)
 	GetRefreshTokenUUIDFromTable(token string) (string, error)
-	Login(u []*model.User) ([]*model.User, error)
-	GetSession(userID string) (int, error)
+	Logout(sessionUUID string) error
+	GetSessionExpiration(sessionUUID string) (time.Time, error)
 	GetSessionUUID(userID string) (string, error)
 	UpdateSession(sessionUUID string, s *model.Session) error
 }
@@ -67,17 +68,13 @@ func (ai *authorizationInterfactor) GetRefreshTokenUUIDFromTable(uuid string) (s
 	return refreshTokenUUID, nil
 }
 
-func (ai *authorizationInterfactor) Login(u []*model.User) ([]*model.User, error) {
-	return nil, nil
-}
-
-func (ai *authorizationInterfactor) GetSession(userID string) (int, error) {
-	session, err := ai.AuthorizationRepository.GetSession(userID)
+func (ai *authorizationInterfactor) GetSessionExpiration(sessionUUID string) (time.Time, error) {
+	uuid, err := ai.AuthorizationRepository.GetSessionExpiration(sessionUUID)
 	if err != nil {
-		return 0, err
+		return time.Time{}, err
 	}
 
-	return session, nil
+	return uuid, nil
 }
 
 func (ai *authorizationInterfactor) GetSessionUUID(userID string) (string, error) {
@@ -91,6 +88,15 @@ func (ai *authorizationInterfactor) GetSessionUUID(userID string) (string, error
 
 func (ai *authorizationInterfactor) UpdateSession(sessionUUID string, s *model.Session) error {
 	err := ai.AuthorizationRepository.UpdateSession(sessionUUID, s)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ai *authorizationInterfactor) Logout(sessionUUID string) error {
+	err := ai.AuthorizationRepository.Logout(sessionUUID)
 	if err != nil {
 		return err
 	}
