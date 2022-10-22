@@ -14,3 +14,6 @@ jwt:
   refreshKey: example_refresh_key
   accessTokenLifespan: 30 # in minutes
   refreshTokenLifespan: 2880 # in minutes
+
+s3:
+  bucketName: advertisements.bucket

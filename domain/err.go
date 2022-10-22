@@ -35,3 +35,6 @@ var ErrForbidden = echo.NewHTTPError(http.StatusForbidden, "Status 403 Forbidden
 
 var ErrInvalidSession = echo.NewHTTPError(http.StatusInternalServerError, "Invalid Session.")
 var ErrSessionExpired = echo.NewHTTPError(http.StatusInternalServerError, "Session Expired.")
+
+var ErrInvalidPictureExtension = echo.NewHTTPError(http.StatusInternalServerError, "Invalid file extension.")
+var PictureLimitReached = echo.NewHTTPError(http.StatusInternalServerError, "Only 10 images allowed to add.")

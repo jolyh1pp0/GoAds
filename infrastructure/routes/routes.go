@@ -77,6 +77,12 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 		advertisementGroup.DELETE("/:id", func(context echo.Context) error { return c.Advertisement.DeleteAdvertisement(context) })
 	}
 
+	galleryGroup := e.Group("/gallery", Auth, Role(model.RoleAdvertisementID, model.RoleAdminID))
+	{
+		galleryGroup.POST("/:id", func(context echo.Context) error { return c.Gallery.AddPicture(context) })
+		galleryGroup.DELETE("/:id", func(context echo.Context) error { return c.Gallery.DeletePicture(context) })
+	}
+
 	userGroup := e.Group("/users", Auth, Role(model.RoleUserID, model.RoleAdminID))
 	{
 		userGroup.GET("", func(context echo.Context) error { return c.User.GetUsers(context) })

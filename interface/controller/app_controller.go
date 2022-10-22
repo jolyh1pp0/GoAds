@@ -2,6 +2,7 @@ package controller
 
 type AppController struct {
 	Advertisement interface{ AdvertisementController }
+	Gallery  	  interface{ GalleryController }
 	User          interface{ UserController }
 	Comment       interface{ CommentController }
 	Authorization interface{ AuthorizationController }

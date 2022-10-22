@@ -16,7 +16,7 @@ func NewAdvertisementRepository(db *gorm.DB) repository.AdvertisementRepository 
 }
 
 func (ar *advertisementRepository) FindAll(a []*model.GetAdvertisementsResponseData, limit string, offset string, orderQuery string) ([]*model.GetAdvertisementsResponseData, error) {
-	err := ar.db.Limit(limit).Offset(offset).Model(&a).Select("title, description, photo_1, price, created_at, user_id").Order(orderQuery).Preload("User").Find(&a).Error
+	err := ar.db.Limit(limit).Offset(offset).Model(&a).Select("title, description, price, created_at, user_id").Order(orderQuery).Preload("User").Find(&a).Error
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func (ar *advertisementRepository) FindAll(a []*model.GetAdvertisementsResponseD
 }
 
 func (ar *advertisementRepository) FindOne(a []*model.GetAdvertisementsResponseData, id string) ([]*model.GetAdvertisementsResponseData, error) {
-	err := ar.db.Model(&a).Select("*").Where("advertisements.id = ?", id).Preload("User").Preload("Comments.User").Find(&a).Error
+	err := ar.db.Model(&a).Select("*").Where("advertisements.id = ?", id).Preload("User").Preload("Comments.User").Preload("Gallery").Find(&a).Error
 
 	if err != nil {
 		return nil, err
