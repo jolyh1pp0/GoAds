@@ -300,3 +300,10 @@ func getUserID(c Context) string {
 
 	return sessionData.UserID
 }
+
+func getUserRole(c Context) []int {
+	rawSessionData := c.Get(domain.SessionDataKey)
+	sessionData, _ := rawSessionData.(domain.SessionData)
+
+	return sessionData.UserRoles
+}

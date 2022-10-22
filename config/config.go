@@ -21,11 +21,14 @@ type config struct {
 	Server struct {
 		Address string
 	}
-	JWT struct{
-		Key                string
-		RefreshKey         string
+	JWT struct {
+		Key                  string
+		RefreshKey           string
 		AccessTokenLifespan  time.Duration
 		RefreshTokenLifespan time.Duration
+	}
+	S3 struct {
+		BucketName string
 	}
 }
 

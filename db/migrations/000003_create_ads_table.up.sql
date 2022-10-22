@@ -4,9 +4,6 @@ CREATE TABLE advertisements (
     title VARCHAR(200) NOT NULL UNIQUE,
     description VARCHAR(1000),
     price BIGINT NOT NULL,
-    photo_1 VARCHAR(255),
-    photo_2 VARCHAR(255),
-    photo_3 VARCHAR(255),
     created_at TIMESTAMPTZ NOT NULL DEFAULT Now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT Now(),
 
