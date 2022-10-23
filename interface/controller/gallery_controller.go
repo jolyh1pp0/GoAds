@@ -32,8 +32,8 @@ func NewGalleryController(ad interfactor.GalleryInterfactor) GalleryController {
 }
 
 type Base64 struct {
-	FileBase64 string   `json:"file_base_64"`
-	FileName     string `json:"file_name"`
+	FileBase64 string `json:"file_base_64"`
+	FileName   string `json:"file_name"`
 }
 
 func checkIfAdmin(c Context) bool {
@@ -69,7 +69,7 @@ func decodeBase64(base64String string) []byte {
 	return data
 }
 
-func createBucket() (*s3.Client , error) {
+func createBucket() (*s3.Client, error) {
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		log.Fatalf("failed to load configuration, %v", err)
@@ -88,6 +88,7 @@ func uploadImageToBucket(client *s3.Client, base64String, fileName string) (stri
 		Bucket: aws.String(goAdsConf.C.S3.BucketName),
 		Key:    aws.String("images/" + fileName),
 		Body:   bytes.NewReader(decodeBase64(base64String)),
+		ACL:    "public-read",
 	})
 
 	if err != nil {
@@ -152,7 +153,7 @@ func (gc *galleryController) AddPicture(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusOK, "Picture for advertisement #" + advertisementId + " added.", " ")
+	return c.JSONPretty(http.StatusOK, "Picture for advertisement #"+advertisementId+" added.", " ")
 }
 
 func (gc *galleryController) DeletePicture(c Context) error {
