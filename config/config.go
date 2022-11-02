@@ -2,7 +2,10 @@ package config
 
 import (
 	"GoAds/domain"
+	"context"
 	"fmt"
+	cfg "github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -34,6 +37,20 @@ type config struct {
 
 var C config
 
+var BucketClient *s3.Client
+
+func createBucket() (*s3.Client, error) {
+	bucketConfig, err := cfg.LoadDefaultConfig(context.TODO())
+	if err != nil {
+		log.Fatalf("failed to load configuration, %v", err)
+		return nil, err
+	}
+
+	client := s3.NewFromConfig(bucketConfig)
+
+	return client, nil
+}
+
 func ReadConfig() {
 	Config := &C
 	viper.AddConfigPath("./config")
@@ -52,6 +69,13 @@ func ReadConfig() {
 
 	if C.JWT.Key == "" || C.JWT.RefreshKey == ""{
 		log.Println(domain.ErrEmptyJWTKey)
+		os.Exit(1)
+	}
+
+	var err error
+	BucketClient, err = createBucket()
+	if err != nil {
+		log.Println(err)
 		os.Exit(1)
 	}
 }

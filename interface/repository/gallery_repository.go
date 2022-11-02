@@ -1,9 +1,13 @@
 package repository
 
 import (
+	goAdsConf "GoAds/config"
 	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/repository"
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/jinzhu/gorm"
 )
 
@@ -64,8 +68,38 @@ func (gr *galleryRepository) Create(g *model.Gallery) error {
 	return nil
 }
 
+func deleteImageFromBucket(client *s3.Client, item string) error {
+	_, err := client.DeleteObject(context.TODO(), &s3.DeleteObjectInput{
+		Bucket: aws.String(goAdsConf.C.S3.BucketName),
+		Key:    aws.String("images/" + item),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (gr *galleryRepository) Delete(g *model.Gallery, id string) error {
-	err := gr.db.Model(&g).Where("id = ?", id).Delete(&g).Error
+	err := gr.db.Transaction(func(tx *gorm.DB) error {
+		err := gr.db.Model(&g).Select("file_name").Where("id = ?", id).Find(&g).Error
+		if err != nil {
+			return err
+		}
+
+		if err = gr.db.Model(&g).Where("id = ?", id).Delete(&g).Error; err != nil {
+			tx.Rollback()
+			return err
+		}
+
+		if err = deleteImageFromBucket(goAdsConf.BucketClient, g.FileName); err != nil {
+			tx.Rollback()
+			return err
+		}
+
+		return nil
+	})
 	if err != nil {
 		return err
 	}

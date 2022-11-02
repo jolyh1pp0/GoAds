@@ -84,7 +84,7 @@ func createBucket() (*s3.Client, error) {
 func uploadImageToBucket(client *s3.Client, base64String, fileName string) (string, error) {
 	uploader := manager.NewUploader(client)
 
-	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{ // result
+	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
 		Bucket: aws.String(goAdsConf.C.S3.BucketName),
 		Key:    aws.String("images/" + fileName),
 		Body:   bytes.NewReader(decodeBase64(base64String)),
@@ -135,12 +135,7 @@ func (gc *galleryController) AddPicture(c Context) error {
 	adID, _ := strconv.ParseUint(advertisementId, 10, 32)
 	gallery.AdvertisementId = uint(adID)
 
-	bucketClient, err := createBucket()
-	if err != nil {
-		return err
-	}
-
-	filePath, err := uploadImageToBucket(bucketClient, base64Data.FileBase64, base64Data.FileName+fileExtension)
+	filePath, err := uploadImageToBucket(goAdsConf.BucketClient, base64Data.FileBase64, base64Data.FileName+fileExtension)
 	if err != nil {
 		log.Println(err)
 		return err
