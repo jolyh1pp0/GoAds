@@ -45,6 +45,23 @@ func NewAuthorizationController(ai interfactor.AuthorizationInterfactor) Authori
 	return &authorizationController{ai}
 }
 
+func ValidatePassword(password string) ([]byte, error) {
+	const minEntropyBits = 60
+	err := passwordvalidator.Validate(password, minEntropyBits)
+	if err != nil {
+		log.Print(err)
+		return nil, domain.ErrInsecurePassword
+	}
+
+	bPass, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		log.Print(err)
+		return nil, err
+	}
+
+	return bPass, nil
+}
+
 func (ac *authorizationController) CreateUser(c Context) error {
 	var user model.User
 
@@ -59,18 +76,12 @@ func (ac *authorizationController) CreateUser(c Context) error {
 		return domain.ErrInvalidEmailAddress
 	}
 
-	const minEntropyBits = 60
-	err = passwordvalidator.Validate(user.Password, minEntropyBits)
+	password, err := ValidatePassword(user.Password)
 	if err != nil {
 		log.Print(err)
-		return domain.ErrInsecurePassword
+		return err
 	}
-
-	bPass, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		log.Print(err)
-	}
-	user.Password = string(bPass)
+	user.Password = string(password)
 
 	u, err := ac.authorizationInterfactor.Create(&user)
 	if !errors.Is(err, nil) {

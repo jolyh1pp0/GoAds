@@ -19,12 +19,13 @@ func NewRegistry(db *gorm.DB) Registry {
 
 func (r *registry) NewAppController() controller.AppController {
 	return controller.AppController{
-		Advertisement: r.NewAdvertisementController(),
-		Gallery: 	   r.NewGalleryController(),
-		User:          r.NewUserController(),
-		Comment:       r.NewCommentController(),
-		Authorization: r.NewAuthorizationController(),
-		Role: 		   r.NewRoleController(),
-		UserToRole:    r.NewUserToRoleController(),
+		Advertisement:    r.NewAdvertisementController(),
+		Gallery:          r.NewGalleryController(),
+		User:             r.NewUserController(),
+		Comment:          r.NewCommentController(),
+		Authorization:    r.NewAuthorizationController(),
+		Role:             r.NewRoleController(),
+		UserToRole:       r.NewUserToRoleController(),
+		PasswordRecovery: r.NewPasswordRecoveryController(),
 	}
 }

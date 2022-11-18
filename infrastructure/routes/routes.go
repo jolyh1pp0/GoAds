@@ -91,6 +91,12 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 		userGroup.DELETE("/:id", func(context echo.Context) error { return c.User.DeleteUser(context) })
 	}
 
+	passwordRecoveryGroup := e.Group("/password_recovery")
+	{
+		passwordRecoveryGroup.POST("/reset", func(context echo.Context) error { return c.PasswordRecovery.ResetPassword(context) })
+		passwordRecoveryGroup.POST("/set/:token", func(context echo.Context) error { return c.PasswordRecovery.SetPassword(context) })
+	}
+
 	commentGroup := e.Group("/comments", Auth, Role(model.RoleCommentID, model.RoleAdminID))
 	{
 		commentGroup.GET("", func(context echo.Context) error { return c.Comment.GetComments(context) })

@@ -10,7 +10,6 @@ import (
 	"encoding/base64"
 	"errors"
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"log"
@@ -67,18 +66,6 @@ func decodeBase64(base64String string) []byte {
 	}
 
 	return data
-}
-
-func createBucket() (*s3.Client, error) {
-	cfg, err := config.LoadDefaultConfig(context.TODO())
-	if err != nil {
-		log.Fatalf("failed to load configuration, %v", err)
-		return nil, err
-	}
-
-	client := s3.NewFromConfig(cfg)
-
-	return client, nil
 }
 
 func uploadImageToBucket(client *s3.Client, base64String, fileName string) (string, error) {

@@ -30,6 +30,11 @@ Check how to [get access key ID and secret access key](https://docs.aws.amazon.c
 
 Check your nearest [regional endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html).
 
-## Routes
+## MailGun
+To configure mailgun, [sign up or log in](https://www.mailgun.com). Then [find private API key](https://help.mailgun.com/hc/en-us/articles/203380100-Where-Can-I-Find-My-API-Key-and-SMTP-Credentials-) and [domain name](https://beta.mailgun.com/mg/dashboard).
+Copy and paste private API key and domain name to *config.yml* <br>
+For testing [add an authorized recipient](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients).
 
+
+## Routes
 To use all routes download *Goads Collection.postman_collection.json* from repository and import this file to [Postman](https://www.postman.com).
