@@ -53,7 +53,7 @@ func (gr *galleryRepository) Create(g *model.Gallery) error {
 		if result.RowsAffected > 9 {
 			return domain.PictureLimitReached
 		}
-		if err := gr.db.Model(&g).Create(g).Error; err != nil {
+		if err := tx.Model(&g).Create(g).Error; err != nil {
 			tx.Rollback()
 			return err
 		}
@@ -83,12 +83,12 @@ func deleteImageFromBucket(client *s3.Client, item string) error {
 
 func (gr *galleryRepository) Delete(g *model.Gallery, id string) error {
 	err := gr.db.Transaction(func(tx *gorm.DB) error {
-		err := gr.db.Model(&g).Select("file_name").Where("id = ?", id).Find(&g).Error
+		err := tx.Model(&g).Select("file_name").Where("id = ?", id).Find(&g).Error
 		if err != nil {
 			return err
 		}
 
-		if err = gr.db.Model(&g).Where("id = ?", id).Delete(&g).Error; err != nil {
+		if err = tx.Model(&g).Where("id = ?", id).Delete(&g).Error; err != nil {
 			tx.Rollback()
 			return err
 		}

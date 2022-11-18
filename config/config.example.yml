@@ -17,3 +17,7 @@ jwt:
 
 s3:
   bucketName: advertisements.bucket
+
+mailgun:
+  domainName: sandbox12c920d206d44166a53355f85b9eac3c.mailgun.org
+  APIKey: 0e9760f2683ddb40d5594f22d2615cef-2de3d545-faccf518

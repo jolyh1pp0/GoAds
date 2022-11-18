@@ -38,3 +38,7 @@ var ErrSessionExpired = echo.NewHTTPError(http.StatusInternalServerError, "Sessi
 
 var ErrInvalidPictureExtension = echo.NewHTTPError(http.StatusInternalServerError, "Invalid file extension.")
 var PictureLimitReached = echo.NewHTTPError(http.StatusInternalServerError, "Only 10 images allowed to add.")
+
+var ErrInvalidEmail = echo.NewHTTPError(http.StatusInternalServerError, "Invalid email.")
+var ErrTokenActive = echo.NewHTTPError(http.StatusInternalServerError, "This email already has an active token.")
+var ErrTokenInvalid = echo.NewHTTPError(http.StatusInternalServerError, "Invalid token.")

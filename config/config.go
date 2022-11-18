@@ -6,6 +6,7 @@ import (
 	"fmt"
 	cfg "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/mailgun/mailgun-go/v4"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -33,11 +34,17 @@ type config struct {
 	S3 struct {
 		BucketName string
 	}
+	Mailgun struct {
+		DomainName string
+		ApiKey     string
+	}
 }
 
 var C config
 
 var BucketClient *s3.Client
+
+var MG *mailgun.MailgunImpl
 
 func createBucket() (*s3.Client, error) {
 	bucketConfig, err := cfg.LoadDefaultConfig(context.TODO())
@@ -78,4 +85,6 @@ func ReadConfig() {
 		log.Println(err)
 		os.Exit(1)
 	}
+
+	MG = mailgun.NewMailgun(C.Mailgun.DomainName, C.Mailgun.ApiKey)
 }
