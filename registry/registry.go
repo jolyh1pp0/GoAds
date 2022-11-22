@@ -27,5 +27,6 @@ func (r *registry) NewAppController() controller.AppController {
 		Role:             r.NewRoleController(),
 		UserToRole:       r.NewUserToRoleController(),
 		PasswordRecovery: r.NewPasswordRecoveryController(),
+		Chat:             r.NewChatController(),
 	}
 }

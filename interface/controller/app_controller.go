@@ -9,4 +9,5 @@ type AppController struct {
 	Role             interface{ RoleController }
 	UserToRole       interface{ UserToRoleController }
 	PasswordRecovery interface{ PasswordRecoveryController }
+	Chat 			 interface{ ChatController }
 }
