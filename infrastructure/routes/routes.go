@@ -124,6 +124,11 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 		userToRoleGroup.DELETE("/:id", func(context echo.Context) error { return c.UserToRole.DeleteUserToRole(context) })
 	}
 
+	chatGroup := e.Group("/chat", Auth, Role(model.RoleUserID, model.RoleAdminID))
+	{
+		chatGroup.GET("", func(context echo.Context) error { return c.Chat.Chat(context) })
+	}
+
 	e.POST("/register", func(context echo.Context) error { return c.Authorization.CreateUser(context) })
 	e.GET("/login", func(context echo.Context) error { return c.Authorization.Login(context) })
 	e.GET("/refresh", func(context echo.Context) error { return c.Authorization.Refresh(context) })
