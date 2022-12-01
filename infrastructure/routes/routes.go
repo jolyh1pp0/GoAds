@@ -126,7 +126,9 @@ func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
 
 	chatGroup := e.Group("/chat", Auth, Role(model.RoleUserID, model.RoleAdminID))
 	{
-		chatGroup.GET("", func(context echo.Context) error { return c.Chat.Chat(context) })
+		hub := controller.NewHub()
+		go hub.Run()
+		chatGroup.GET("", func(context echo.Context) error { return c.Chat.ServeWs(context, hub) })
 	}
 
 	e.POST("/register", func(context echo.Context) error { return c.Authorization.CreateUser(context) })
