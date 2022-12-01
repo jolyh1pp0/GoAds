@@ -88,7 +88,7 @@ func (ac *authorizationController) CreateUser(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusCreated, u, "  ")
+	return c.JSONPretty(http.StatusCreated, "Status 201. User " + u.ID + " created", "  ")
 }
 
 func GenerateJWT(userID string, userRoles []int, sessionUUID, accessUUID, refreshUUID string) (string, string, error) {

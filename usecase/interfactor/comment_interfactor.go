@@ -13,7 +13,7 @@ type CommentInterfactor interface {
 	Get(c []*model.GetCommentsResponseData) ([]*model.GetCommentsResponseData, error)
 	GetOne(c []*model.GetCommentsResponseData, id string) ([]*model.GetCommentsResponseData, error)
 	Create(c *model.GetCommentsCreateUpdateData) (*model.GetCommentsCreateUpdateData, error)
-	Update(c *model.GetCommentsCreateUpdateData, id string, userID string) (*model.GetCommentsCreateUpdateData, error)
+	Update(c *model.GetCommentsCreateUpdateData, id string, userID string) error
 	Delete(c []*model.Comment, id string, userID string) ([]*model.Comment, error)
 }
 
@@ -48,13 +48,13 @@ func (co *commentInterfactor) Create(c *model.GetCommentsCreateUpdateData) (*mod
 	return c, err
 }
 
-func (co *commentInterfactor) Update(c *model.GetCommentsCreateUpdateData, id string, userID string) (*model.GetCommentsCreateUpdateData, error) {
-	c, err := co.CommentRepository.Update(c, id, userID)
+func (co *commentInterfactor) Update(c *model.GetCommentsCreateUpdateData, id string, userID string) error {
+	err := co.CommentRepository.Update(c, id, userID)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return c, err
+	return err
 }
 
 func (co *commentInterfactor) Delete(c []*model.Comment, id string, userID string) ([]*model.Comment, error) {
