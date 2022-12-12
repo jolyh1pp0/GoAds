@@ -6,6 +6,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type commentController struct {
@@ -61,7 +62,7 @@ func (cc *commentController) CreateComment(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusCreated, co, "  ")
+	return c.JSONPretty(http.StatusCreated, "Status 201. Comment №" + strconv.Itoa(int(co.ID)) + " created", "  ")
 }
 
 func (cc *commentController) UpdateComment(c Context) error {
@@ -75,12 +76,12 @@ func (cc *commentController) UpdateComment(c Context) error {
 	userID := getUserID(c)
 	id := c.Param("id")
 
-	co, err := cc.commentInterfactor.Update(&comment, id, userID)
+	err = cc.commentInterfactor.Update(&comment, id, userID)
 	if !errors.Is(err, nil) {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusCreated, co, "  ")
+	return c.JSONPretty(http.StatusCreated, "Status 201. Comment №" + id + " updated", "  ")
 }
 
 func (cc *commentController) DeleteComment(c Context) error {
@@ -94,5 +95,5 @@ func (cc *commentController) DeleteComment(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusOK, "Comment "+id+" deleted", "  ")
+	return c.JSONPretty(http.StatusOK, "Status 200. Comment №"+id+" deleted", "  ")
 }
