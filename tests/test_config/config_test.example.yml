@@ -1,0 +1,16 @@
+database:
+  dialect: postgres
+  host: localhost
+  port: 5432
+  user: user
+  name: db_name
+  password: passwd
+
+server:
+  address: 8080
+
+jwt:
+  key: example_key
+  refreshKey: example_refresh_key
+  accessTokenLifespan: 8888 # in minutes
+  refreshTokenLifespan: 8888 # in minutes

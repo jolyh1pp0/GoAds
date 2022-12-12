@@ -58,11 +58,12 @@ func createBucket() (*s3.Client, error) {
 	return client, nil
 }
 
-func ReadConfig() {
+func ReadConfig(configPath, configName, configType string) {
 	Config := &C
-	viper.AddConfigPath("./config")
-	viper.SetConfigName("config")
-	viper.SetConfigType("yml")
+
+	viper.AddConfigPath(configPath)
+	viper.SetConfigName(configName)
+	viper.SetConfigType(configType)
 
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Println(err)

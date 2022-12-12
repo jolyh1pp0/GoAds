@@ -61,7 +61,8 @@ func (uc *userController) UpdateUser(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusCreated, "Status 201. User " + id + " updated", "  ")
+	u.UpdatedAt = nil
+	return c.JSONPretty(http.StatusCreated, u, "  ")
 }
 
 func (uc *userController) DeleteUser(c Context) error {
