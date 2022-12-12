@@ -26,7 +26,7 @@ func init() {
 }
 
 func main() {
-	config.ReadConfig()
+	config.ReadConfig("./config", "config", "yml")
 
 	db := datastore.NewDB()
 	db.LogMode(true)

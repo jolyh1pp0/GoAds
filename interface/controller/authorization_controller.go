@@ -6,11 +6,14 @@ import (
 	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/interfactor"
+	"bytes"
+	"encoding/json"
 	"errors"
 	"github.com/kataras/jwt"
 	"github.com/twinj/uuid"
 	passwordvalidator "github.com/wagslane/go-password-validator"
 	"golang.org/x/crypto/bcrypt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/mail"
@@ -134,6 +137,17 @@ func ParseToken(accessToken string) (*tokenClaims, error) {
 
 func (ac *authorizationController) Login(c Context) error {
 	var user model.User
+
+	var bodyBytes []byte
+	if c.Request().Body != nil {
+		bodyBytes, _ = ioutil.ReadAll(c.Request().Body)
+	}
+	c.Request().Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+	bodyString := make(map[string]string)
+	json.Unmarshal(bodyBytes, &bodyString)
+
+	user.Email = bodyString["email"]
+	user.Password = bodyString["password"]
 
 	err := c.Bind(&user)
 	if err != nil {

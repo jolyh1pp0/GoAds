@@ -61,6 +61,7 @@ func (uc *userController) UpdateUser(c Context) error {
 		return err
 	}
 
+	u.UpdatedAt = nil
 	return c.JSONPretty(http.StatusCreated, u, "  ")
 }
 
