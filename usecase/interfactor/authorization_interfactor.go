@@ -20,6 +20,7 @@ type AuthorizationInterfactor interface {
 	GetSessionExpiration(sessionUUID string) (time.Time, error)
 	GetSessionUUID(userID string) (string, error)
 	UpdateSession(sessionUUID string, s *model.Session) error
+	CreateUserToRole(userRole model.UserRole) error
 }
 
 func NewAuthorizationInterfactor(r repository.AuthorizationRepository) AuthorizationInterfactor {
@@ -97,6 +98,15 @@ func (ai *authorizationInterfactor) UpdateSession(sessionUUID string, s *model.S
 
 func (ai *authorizationInterfactor) Logout(sessionUUID string) error {
 	err := ai.AuthorizationRepository.Logout(sessionUUID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ai *authorizationInterfactor) CreateUserToRole(userRole model.UserRole) error {
+	err := ai.AuthorizationRepository.CreateUserToRole(userRole)
 	if err != nil {
 		return err
 	}
