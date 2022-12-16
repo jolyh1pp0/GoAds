@@ -6,11 +6,14 @@ import (
 	"GoAds/domain"
 	"GoAds/domain/model"
 	"GoAds/usecase/interfactor"
+	"bytes"
+	"encoding/json"
 	"errors"
 	"github.com/kataras/jwt"
 	"github.com/twinj/uuid"
 	passwordvalidator "github.com/wagslane/go-password-validator"
 	"golang.org/x/crypto/bcrypt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/mail"
@@ -88,6 +91,15 @@ func (ac *authorizationController) CreateUser(c Context) error {
 		return err
 	}
 
+	var userRole model.UserRole
+	userRole.RoleID = 2
+	userRole.UserID = u.ID
+
+	err = ac.authorizationInterfactor.CreateUserToRole(userRole)
+	if !errors.Is(err, nil) {
+		return err
+	}
+
 	return c.JSONPretty(http.StatusCreated, u, "  ")
 }
 
@@ -100,13 +112,13 @@ func GenerateJWT(userID string, userRoles []int, sessionUUID, accessUUID, refres
 		RefreshUUID: refreshUUID,
 	}
 
-	token, err := jwt.Sign(jwt.HS256, key, claims, jwt.MaxAge(config.C.JWT.AccessTokenLifespan * time.Minute))
+	token, err := jwt.Sign(jwt.HS256, key, claims, jwt.MaxAge(config.C.JWT.AccessTokenLifespan*time.Minute))
 	if err != nil {
 		log.Println(err)
 		return "", "", domain.ErrInvalidAccessToken
 	}
 
-	refreshToken, err := jwt.Sign(jwt.HS256, refreshKey, claims, jwt.MaxAge(config.C.JWT.RefreshTokenLifespan * time.Minute))
+	refreshToken, err := jwt.Sign(jwt.HS256, refreshKey, claims, jwt.MaxAge(config.C.JWT.RefreshTokenLifespan*time.Minute))
 	if err != nil {
 		log.Println(err)
 		return "", "", domain.ErrInvalidAccessToken
@@ -134,6 +146,17 @@ func ParseToken(accessToken string) (*tokenClaims, error) {
 
 func (ac *authorizationController) Login(c Context) error {
 	var user model.User
+
+	var bodyBytes []byte
+	if c.Request().Body != nil {
+		bodyBytes, _ = ioutil.ReadAll(c.Request().Body)
+	}
+	c.Request().Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+	bodyString := make(map[string]string)
+	json.Unmarshal(bodyBytes, &bodyString)
+
+	user.Email = bodyString["email"]
+	user.Password = bodyString["password"]
 
 	err := c.Bind(&user)
 	if err != nil {
@@ -181,14 +204,14 @@ func (ac *authorizationController) Login(c Context) error {
 	return c.JSONPretty(http.StatusOK, tokens, "")
 }
 
-func(ac *authorizationController) createSession(userID, accessTokenUUID, refreshTokenUUID string) (string, error) {
+func (ac *authorizationController) createSession(userID, accessTokenUUID, refreshTokenUUID string) (string, error) {
 	var session model.Session
 	session.UserID = userID
 	session.AccessTokenUUID, session.RefreshTokenUUID = accessTokenUUID, refreshTokenUUID
 
 	now := time.Now()
-	session.RefreshTokenExpiresAt = now.Add(time.Hour*24*2)
-	session.ExpiresAt = now.Add(time.Hour*24*30)
+	session.RefreshTokenExpiresAt = now.Add(time.Hour * 24 * 2)
+	session.ExpiresAt = now.Add(time.Hour * 24 * 30)
 
 	sessionUU, err := ac.authorizationInterfactor.CreateSession(&session)
 	if err != nil {
@@ -198,12 +221,12 @@ func(ac *authorizationController) createSession(userID, accessTokenUUID, refresh
 	return sessionUU.ID, nil
 }
 
-func(ac *authorizationController) updateSession(sessionUUID, accessUUID, refreshUUID string) error {
+func (ac *authorizationController) updateSession(sessionUUID, accessUUID, refreshUUID string) error {
 	var session model.Session
 
 	session.AccessTokenUUID, session.RefreshTokenUUID = accessUUID, refreshUUID
 	now := time.Now()
-	session.RefreshTokenExpiresAt = now.Add(time.Hour*24*2)
+	session.RefreshTokenExpiresAt = now.Add(time.Hour * 24 * 2)
 
 	err := ac.authorizationInterfactor.UpdateSession(sessionUUID, &session)
 	if err != nil {
@@ -259,7 +282,7 @@ func (ac *authorizationController) Refresh(c Context) error {
 	accessUUID := uuid.NewV4().String()
 	refreshUUID := uuid.NewV4().String()
 
-	accessToken, refreshToken, err := GenerateJWT(userID, userRoles, session.ID , accessUUID, refreshUUID)
+	accessToken, refreshToken, err := GenerateJWT(userID, userRoles, session.ID, accessUUID, refreshUUID)
 	if err != nil {
 		log.Print(err)
 		return domain.ErrInvalidAccessToken

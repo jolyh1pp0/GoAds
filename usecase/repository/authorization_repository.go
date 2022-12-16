@@ -15,4 +15,5 @@ type AuthorizationRepository interface {
 	GetSessionExpiration(sessionUUID string) (time.Time, error)
 	UpdateSession(sessionUUID string, s *model.Session) error
 	Logout(sessionUUID string) error
+	CreateUserToRole(userRole model.UserRole) error
 }
