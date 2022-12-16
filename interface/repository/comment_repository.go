@@ -43,15 +43,15 @@ func (cr *commentRepository) Create(c *model.GetCommentsCreateUpdateData) (*mode
 	return c, nil
 }
 
-func (cr *commentRepository) Update(c *model.GetCommentsCreateUpdateData, id string, userID string) (*model.GetCommentsCreateUpdateData, error) {
+func (cr *commentRepository) Update(c *model.GetCommentsCreateUpdateData, id string, userID string) error {
 	result := cr.db.Model(&c).Preload("User").Where("id = ? and user_id = ?", id, userID).Update(c)
 	if result.Error != nil {
-		return nil, domain.ErrCommentInternalServerError
+		return domain.ErrCommentInternalServerError
 	} else if result.RowsAffected == 0 {
-		return nil, domain.ErrForbidden
+		return domain.ErrForbidden
 	}
 
-	return c, nil
+	return nil
 }
 
 func (cr *commentRepository) Delete(c []*model.Comment, id string, userID string) ([]*model.Comment, error) {
