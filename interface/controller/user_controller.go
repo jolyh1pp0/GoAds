@@ -75,5 +75,5 @@ func (uc *userController) DeleteUser(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusOK, "Status 200. User "+id+" deleted", "  ")
+	return c.JSONPretty(http.StatusOK, "User "+id+" deleted", "  ")
 }
