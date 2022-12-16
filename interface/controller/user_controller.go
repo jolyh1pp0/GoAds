@@ -56,7 +56,7 @@ func (uc *userController) UpdateUser(c Context) error {
 
 	id := c.Param("id")
 
-	err = uc.userInterfactor.Update(&user, id)
+	u, err := uc.userInterfactor.Update(&user, id)
 	if !errors.Is(err, nil) {
 		return err
 	}
@@ -75,5 +75,5 @@ func (uc *userController) DeleteUser(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusOK, "Status 200. User " + id +" deleted", "  ")
+	return c.JSONPretty(http.StatusOK, "Status 200. User "+id+" deleted", "  ")
 }
