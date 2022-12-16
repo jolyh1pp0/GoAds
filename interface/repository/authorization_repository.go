@@ -121,3 +121,13 @@ func (ar *authorizationRepository) Logout(sessionUUID string) error {
 
 	return nil
 }
+
+func (ar *authorizationRepository) CreateUserToRole(userRole model.UserRole) error {
+	err := ar.db.Model(&userRole).Create(&userRole).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
