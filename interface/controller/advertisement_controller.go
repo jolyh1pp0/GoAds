@@ -6,7 +6,6 @@ import (
 	"errors"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 type advertisementController struct {
@@ -94,12 +93,12 @@ func (ac *advertisementController) UpdateAdvertisement(c Context) error {
 	userID := getUserID(c)
 	id := c.Param("id")
 
-	a, err := ac.advertisementInterfactor.Update(&advertisement, id, userID)
+	_, err = ac.advertisementInterfactor.Update(&advertisement, id, userID)
 	if !errors.Is(err, nil) {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusCreated, "Status 201. Advertisement " + strconv.Itoa(int(a.ID)) + " updated", "  ")
+	return c.JSONPretty(http.StatusCreated, "Status 201. Advertisement "+id+" updated", "  ")
 }
 
 func (ac *advertisementController) DeleteAdvertisement(c Context) error {
@@ -113,5 +112,5 @@ func (ac *advertisementController) DeleteAdvertisement(c Context) error {
 		return err
 	}
 
-	return c.JSONPretty(http.StatusOK, "Status 200. Advertisement №" + id + " deleted", "  ")
+	return c.JSONPretty(http.StatusOK, "Status 200. Advertisement №"+id+" deleted", "  ")
 }
