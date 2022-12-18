@@ -25,7 +25,7 @@ var ErrInvalidEmailAddress = echo.NewHTTPError(http.StatusInternalServerError, "
 var ErrEmailIsNotFound = echo.NewHTTPError(http.StatusInternalServerError, "Status 500 Internal server error. User with this email doesn't exist")
 
 var ErrInsecurePassword = echo.NewHTTPError(http.StatusInternalServerError, "Status 500 Internal server error. Insecure password, try including more special characters, using lowercase letters, using uppercase letters or using a longer password")
-var ErrInvalidPassword = echo.NewHTTPError(http.StatusInternalServerError, "Status 500 Internal server error. Invalid password")
+var ErrInvalidPassword = echo.NewHTTPError(http.StatusBadRequest, "Status 400 Bad Request. Invalid password")
 
 var ErrInvalidAccessToken = echo.NewHTTPError(http.StatusInternalServerError, "Invalid or expired access token")
 var ErrInvalidRefreshToken = echo.NewHTTPError(http.StatusInternalServerError, "Invalid or expired refresh token")
