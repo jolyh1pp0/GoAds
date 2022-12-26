@@ -67,16 +67,17 @@ func (ac *advertisementController) GetOneAdvertisement(c Context) error {
 }
 
 func (ac *advertisementController) CreateAdvertisement(c Context) error {
-	var advertisement model.Advertisement
+	var advertisement model.AdvertisementsRequestData
 
-	err := c.Bind(&advertisement)
-	if err != nil {
-		log.Print(err)
-	}
 	advertisement.UserID = getUserID(c)
+	err := BindModAndValidate(&advertisement, c)
+	if err != nil {
+		return c.JSONPretty(http.StatusBadRequest, err.Error(), "")
+	}
 
 	err = ac.advertisementInterfactor.Create(&advertisement)
 	if !errors.Is(err, nil) {
+		log.Print(err)
 		return err
 	}
 
@@ -84,12 +85,13 @@ func (ac *advertisementController) CreateAdvertisement(c Context) error {
 }
 
 func (ac *advertisementController) UpdateAdvertisement(c Context) error {
-	var advertisement model.Advertisement
+	var advertisement model.AdvertisementsUpdateRequestData
 
-	err := c.Bind(&advertisement)
+	err := BindModAndValidate(&advertisement, c)
 	if err != nil {
-		log.Print(err)
+		return c.JSONPretty(http.StatusBadRequest, err.Error(), "")
 	}
+
 	userID := getUserID(c)
 	id := c.Param("id")
 

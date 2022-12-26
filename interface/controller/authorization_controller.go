@@ -66,11 +66,11 @@ func ValidatePassword(password string) ([]byte, error) {
 }
 
 func (ac *authorizationController) CreateUser(c Context) error {
-	var user model.User
+	var user model.UserRegister
 
-	err := c.Bind(&user)
+	err := BindModAndValidate(&user, c)
 	if err != nil {
-		log.Print(err)
+		return c.JSONPretty(http.StatusBadRequest, err.Error(), "")
 	}
 
 	_, err = mail.ParseAddress(user.Email)
@@ -145,7 +145,7 @@ func ParseToken(accessToken string) (*tokenClaims, error) {
 }
 
 func (ac *authorizationController) Login(c Context) error {
-	var user model.User
+	var user model.UserLogin
 
 	var bodyBytes []byte
 	if c.Request().Body != nil {
@@ -158,9 +158,9 @@ func (ac *authorizationController) Login(c Context) error {
 	user.Email = bodyString["email"]
 	user.Password = bodyString["password"]
 
-	err := c.Bind(&user)
+	err := BindModAndValidate(&user, c)
 	if err != nil {
-		log.Print(err)
+		return c.JSONPretty(http.StatusBadRequest, err.Error(), "")
 	}
 
 	hPass, userID, err := ac.authorizationInterfactor.UserExists(user.Email)

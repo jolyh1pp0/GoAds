@@ -34,7 +34,7 @@ func (ar *advertisementRepository) FindOne(a []*model.GetAdvertisementsResponseD
 	return a, nil
 }
 
-func (ar *advertisementRepository) Create(a *model.Advertisement) error {
+func (ar *advertisementRepository) Create(a *model.AdvertisementsRequestData) error {
 	err := ar.db.Model(&a).Create(a).Error
 
 	if err != nil {
@@ -46,7 +46,7 @@ func (ar *advertisementRepository) Create(a *model.Advertisement) error {
 	return nil
 }
 
-func (ar *advertisementRepository) Update(a *model.Advertisement, id string, userID string) (*model.Advertisement, error) {
+func (ar *advertisementRepository) Update(a *model.AdvertisementsUpdateRequestData, id string, userID string) (*model.AdvertisementsUpdateRequestData, error) {
 	result := ar.db.Model(&a).Where("id = ? and user_id = ?", id, userID).Update(a)
 
 	if result.Error != nil {

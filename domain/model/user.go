@@ -19,6 +19,26 @@ type User struct {
 
 func (User) TableName() string { return "users" }
 
+type UserLogin struct {
+	Email    string `json:"email,omitempty" mod:"trim" validate:"required"`
+	Password string `json:"password,omitempty" mod:"trim" validate:"required"`
+}
+
+func (UserLogin) TableName() string { return "users" }
+
+type UserRegister struct {
+	ID           string `gorm:"primary_key" json:"id,omitempty"`
+	FirstName    string `json:"first_name,omitempty" mod:"trim" validate:"required"`
+	LastName     string `json:"last_name,omitempty" mod:"trim" validate:"required"`
+	Email        string `json:"email,omitempty" mod:"trim" validate:"required"`
+	Password     string `json:"password,omitempty" mod:"trim" validate:"required"`
+	Phone        string `json:"phone,omitempty" mod:"trim" validate:"required"`
+	VerifiedType string `json:"verified_type,omitempty" mod:"trim" validate:"required"`
+	TimeZone     string `json:"time_zone,omitempty" mod:"trim" validate:"required"`
+}
+
+func (UserRegister ) TableName() string { return "users" }
+
 type GetUsersResponseData struct {
 	ID        string `json:"id,omitempty"`
 	Email     string `json:"email,omitempty"`

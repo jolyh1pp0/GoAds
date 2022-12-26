@@ -6,7 +6,7 @@ import (
 )
 
 type AuthorizationRepository interface {
-	Create(u *model.User) (*model.User, error)
+	Create(u *model.UserRegister) (*model.UserRegister, error)
 	CreateSession(s *model.Session) (*model.Session, error)
 	UserExists(email string) (string, string, error)
 	GetUserRoles(userID string) ([]int, error)
