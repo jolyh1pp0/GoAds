@@ -17,7 +17,7 @@ func NewAuthorizationRepository(db *gorm.DB) repository.AuthorizationRepository 
 	return &authorizationRepository{db}
 }
 
-func (ar *authorizationRepository) Create(u *model.User) (*model.User, error) {
+func (ar *authorizationRepository) Create(u *model.UserRegister) (*model.UserRegister, error) {
 	err := ar.db.Model(&u).Create(u).Error
 
 	if err != nil {

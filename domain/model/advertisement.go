@@ -15,6 +15,24 @@ type Advertisement struct {
 
 func (Advertisement) TableName() string { return "advertisements" }
 
+type AdvertisementsRequestData struct {
+	Title       string               `json:"title,omitempty" validate:"required,max=200"`
+	Description string               `json:"description,omitempty" validate:"required,max=1000"`
+	Price       int                  `json:"price,omitempty" validate:"required"`
+	UserID      string               `json:"-"`
+	User        GetUsersResponseData `gorm:"foreignKey:UserID;references:ID" json:"author,omitempty"`
+}
+
+func (AdvertisementsRequestData) TableName() string { return "advertisements" }
+
+type AdvertisementsUpdateRequestData struct {
+	Title       string `json:"title,omitempty" validate:"max=200"`
+	Description string `json:"description,omitempty" validate:"max=1000"`
+	Price       int    `json:"price,omitempty"`
+}
+
+func (AdvertisementsUpdateRequestData) TableName() string { return "advertisements" }
+
 type GetAdvertisementsResponseData struct {
 	ID          uint                      `gorm:"primary_key" json:"id,omitempty"`
 	Title       string                    `json:"title,omitempty"`
